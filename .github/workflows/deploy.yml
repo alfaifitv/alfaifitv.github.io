@@ -3,14 +3,15 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - main  # أو master حسب اسم الفرع الرئيسي عندك
 
+# إعطاء الصلاحيات اللازمة للرفع على GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# إلغاء العمليات السابقة المعلقة إذا رفعت تحديث جديد بسرعة
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -26,13 +27,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          # يرفع المجلد الرئيسي كامل، إذا ملفاتك داخل مجلد معين (مثل public) غير الـ "." إلى اسم المجلد
+          path: "."
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4.0.5  # نسخة مستقرة ومحدثة لحل مشكلة الفشل المؤقت
