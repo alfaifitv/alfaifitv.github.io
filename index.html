@@ -89,33 +89,6 @@
             width: 100%;
             height: 100%;
         }
-
-        .servers-box {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        .server-btn {
-            background-color: #333;
-            color: #fff;
-            border: 2px solid #555;
-            padding: 8px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
-        .server-btn:hover {
-            border-color: var(--primary-color);
-            background-color: #444;
-        }
-        .server-btn.active-server {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
-        }
         
         .live-status {
             display: inline-flex;
@@ -171,12 +144,6 @@
         <div class="player-container">
             <video id="video-player" controls autoplay playsinline></video>
         </div>
-        
-        <div class="servers-box">
-            <button id="btn-srv1" class="server-btn" onclick="switchServer(1)">سيرفر 1</button>
-            <button id="btn-srv2" class="server-btn" onclick="switchServer(2)">سيرفر 2</button>
-            <button id="btn-srv3" class="server-btn" onclick="switchServer(3)">سيرفر 3</button>
-        </div>
     </section>
 
     <section>
@@ -208,7 +175,6 @@
     const database = firebase.database();
     
     let hlsInstance = null;
-    let servers = { 1: "", 2: "", 3: "" };
     let currentActiveUrl = "";
 
     database.ref('live_match').on('value', (snapshot) => {
@@ -216,27 +182,16 @@
         const streamSection = document.getElementById('live-stream-section');
         const matchTitleText = document.getElementById('match-title');
 
-        if (data && data.is_active && (data.stream_url_1 || data.stream_url_2 || data.stream_url_3)) {
+        // العودة للمسار القديم المباشر stream_url
+        if (data && data.is_active && data.stream_url) {
             
             matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
             streamSection.style.display = 'block'; 
 
-            servers[1] = data.stream_url_1 || "";
-            servers[2] = data.stream_url_2 || "";
-            servers[3] = data.stream_url_3 || "";
-
-            document.getElementById('btn-srv1').style.display = servers[1] ? "inline-block" : "none";
-            document.getElementById('btn-srv2').style.display = servers[2] ? "inline-block" : "none";
-            document.getElementById('btn-srv3').style.display = servers[3] ? "inline-block" : "none";
-
-            // تحديد السيرفر الافتراضي للتشغيل فوراً عند فتح البث
-            let defaultServer = 1;
-            if (!servers[1] && servers[2]) defaultServer = 2;
-            else if (!servers[1] && !servers[2] && servers[3]) defaultServer = 3;
-
-            // تشغيل البث فقط إذا كان الرابط المختار جديداً لمنع التعليق والـ Loop
-            if (currentActiveUrl !== servers[defaultServer]) {
-                switchServer(defaultServer);
+            // إذا تغير الرابط في الفايربيس، قم بتحديث المشغل فوراً
+            if (currentActiveUrl !== data.stream_url) {
+                currentActiveUrl = data.stream_url;
+                startPlayer(currentActiveUrl);
             }
 
         } else {
@@ -246,32 +201,21 @@
         }
     });
 
-    window.switchServer = function(serverNum) {
-        const targetUrl = servers[serverNum];
-        if (!targetUrl) return;
-
-        currentActiveUrl = targetUrl;
-
-        // تمييز الزر المختار بلون الفايربيس الأساسي للموقع
-        document.querySelectorAll('.server-btn').forEach(btn => btn.classList.remove('active-server'));
-        const activeBtn = document.getElementById(`btn-srv${serverNum}`);
-        if(activeBtn) activeBtn.classList.add('active-server');
-
-        // إعادة تشغيل الـ Hls كـ String نظيف تماماً
+    function startPlayer(url) {
         const video = document.getElementById('video-player');
         if (Hls.isSupported()) {
             if (hlsInstance) hlsInstance.destroy();
             hlsInstance = new Hls();
-            hlsInstance.loadSource(targetUrl);
+            hlsInstance.loadSource(url);
             hlsInstance.attachMedia(video);
             hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play().catch(e => console.log("Auto-play prevented"));
             });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = targetUrl;
+            video.src = url;
             video.play().catch(e => console.log("Auto-play prevented"));
         }
-    };
+    }
 
     function stopPlayer() {
         const video = document.getElementById('video-player');
