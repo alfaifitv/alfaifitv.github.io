@@ -177,20 +177,19 @@
     let hlsInstance = null;
     let currentActiveUrl = "";
 
-    database.ref('live_match').on('value', (snapshot) => {
+   database.ref('live_match').on('value', (snapshot) => {
         const data = snapshot.val();
         const streamSection = document.getElementById('live-stream-section');
         const matchTitleText = document.getElementById('match-title');
 
-        // العودة للمسار القديم المباشر stream_url
-        if (data && data.is_active && data.stream_url) {
+        // هنا الكود يقرأ مباشرة من السيرفر الأول المتاح عندك في الفايربيس حالياً
+        if (data && data.is_active && data.stream_url_1) {
             
             matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
             streamSection.style.display = 'block'; 
 
-            // إذا تغير الرابط في الفايربيس، قم بتحديث المشغل فوراً
-            if (currentActiveUrl !== data.stream_url) {
-                currentActiveUrl = data.stream_url;
+            if (currentActiveUrl !== data.stream_url_1) {
+                currentActiveUrl = data.stream_url_1;
                 startPlayer(currentActiveUrl);
             }
 
