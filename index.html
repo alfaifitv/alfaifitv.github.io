@@ -9,18 +9,6 @@
     <meta name="description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية. دليل شامل حول مميزات تطبيق الفيفي تيفي AlfaifiTV ومتابعة البث المباشر.">
     <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر, مشغل مباريات">
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "AlfaifiTV",
-      "alternateName": ["الفيفي تيفي", "alfaifitv", "ALFAIFITV", "تطبيق الفيفي تيفي","alfaifi tv","AlfaifiTV","فيفي تيفي","alfiftv","Alfifi tv","Alfifitv"],
-      "operatingSystem": "ANDROID",
-      "applicationCategory": "SportsApplication",
-      "description": "تطبيق الفيفي تيفي (AlfaifiTV) هو الحل الأمثل لعشاق الرياضة لمتابعة المباريات مباشرة."
-    }
-    </script>
-
     <style>
         :root { 
             --primary-color: #8e44ad; 
@@ -84,11 +72,10 @@
             padding-bottom: 10px; 
         }
         
-        /* ستايل مشغل الفيديو المطور */
         .player-container {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* أبعاد الشاشة القياسية 16:9 */
+            padding-top: 56.25%; 
             background: #000;
             border-radius: 8px;
             overflow: hidden;
@@ -103,7 +90,6 @@
             height: 100%;
         }
         
-        /* حالة البث (النبض الأحمر الاحترافي) */
         .live-status {
             display: inline-flex;
             align-items: center;
@@ -124,7 +110,7 @@
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            0 { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
             70% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
             100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
         }
@@ -136,14 +122,6 @@
             color: #888; 
             border-top: 1px solid #333;
             margin-top: 50px;
-        }
-        footer a { 
-            color: var(--primary-color); 
-            text-decoration: none; 
-            margin: 0 10px; 
-        }
-        footer a:hover { 
-            text-decoration: underline; 
         }
     </style>
 </head>
@@ -157,7 +135,6 @@
         <a href="https://www.mediafire.com/file/s1da4kbani2spm2/AlfaifiTV.0.6.apk/file" target="_blank" class="btn">تحميل التطبيق AlfaifiTV.0.6</a>
     </header>
 
-    <!-- قسم المشغل الذكي: يستمع فورياً لزر "بث في الموقع" من لوحة التحكم -->
     <section id="live-stream-section" style="display: none;">
         <div class="live-status">
             <span class="pulse-dot"></span>
@@ -171,33 +148,19 @@
 
     <section>
         <h2>ما هو تطبيق الفيفي تيفي (AlfaifiTV)؟</h2>
-        <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة. تم تطوير التطبيق خصيصاً لمتابعة المباريات، الدوريات العالمية، والبطولات الكبرى مباشرة من هاتفك الأندرويد أو عبر موقعنا الرسمي. مع "الفيفي تيفي" (AlfaifiTV)، لن تفوتك أي لحظة حماسية.</p>
-    </section>
-
-    <section>
-        <h2>لماذا يفضل المستخدمون AlfaifiTV?</h2>
-        <ul>
-            <li><strong>جودة بث عالية:</strong> دعم كامل لتقنيات البث الحديثة (HLS/m3u8) التي تضمن استقرار ونقاء الصورة.</li>
-            <li><strong>تحديث فوري وبدون تقطيع:</strong> بفضل الربط السحابي المباشر، يتم توفير أحدث الروابط وسيرفرات البث في نفس اللحظة.</li>
-            <li><strong>تغطية شاملة:</strong> متابعة لأهم الدوريات والبطولات العالمية والمحلية في مكان واحد.</li>
-        </ul>
+        <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة.</p>
     </section>
 
     <footer>
         <p>© 2026 AlfaifiTV - الموقع الرسمي</p>
-        <a href="privacy.md">سياسة الخصوصية</a>
     </footer>
 </div>
 
-<!-- استدعاء مكتبة Hls.js لتشغيل الـ m3u8 على متصفحات الكروم والكمبيوتر -->
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-<!-- استدعاء مكتبات الفايربيس المستقرة V8 متوافقة مع الاتصال السريع -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // تم ربط إعدادات الفايربيس الحقيقية والخاصة بـ AlfaifiTV بنجاح هنا
     const firebaseConfig = {
         apiKey: "AIzaSyAngv8D7jXNFWrr0yS8fW51_3leSoot88w",
         authDomain: "alfaifitv-9f368.firebaseapp.com",
@@ -208,53 +171,60 @@
         appId: "1:689661718080:android:81e1b47d167616966f79a5"
     };
     
-    // تشغيل الاتصال
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     
     let hlsInstance = null;
+    let currentActiveUrl = "";
 
-    // الاستماع الفوري والمستمر للمسار الموحد المربوط بلوحة التحكم الجديدة
     database.ref('live_match').on('value', (snapshot) => {
         const data = snapshot.val();
-        const video = document.getElementById('video-player');
         const streamSection = document.getElementById('live-stream-section');
         const matchTitleText = document.getElementById('match-title');
 
-        // إذا كان زر البث مفعلاً وهناك رابط مدخل في سيرفر 1 للمباراة النشطة
-        if (data && data.is_active && data.stream_url) {
+        // الربط المباشر مع سيرفر 1 من قاعدة البيانات بدون تعقيد
+        if (data && data.is_active && data.stream_url_1) {
             
-            if (data.title) {
-                matchTitleText.innerText = data.title;
-            } else {
-                matchTitleText.innerText = "المباراة المباشرة الحالية";
-            }
-            
-            // إظهار المشغل فوراً في الموقع
+            matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
             streamSection.style.display = 'block'; 
 
-            if (Hls.isSupported()) {
-                if (hlsInstance) {
-                    hlsInstance.destroy(); // تنظيف السيرفر القديم لمنع تداخل الأصوات والبيانات
-                }
-                hlsInstance = new Hls();
-                hlsInstance.loadSource(data.stream_url);
-                hlsInstance.attachMedia(video);
-            } 
-            // لدعم تشغيل الروابط على متصفحات أبل كـ Safari للآيفون مباشرة
-            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = data.stream_url;
+            // التحديث يتم فقط إذا تغير الرابط فعلياً لمنع تكرار التحميل والتعليق
+            if (currentActiveUrl !== data.stream_url_1) {
+                currentActiveUrl = data.stream_url_1;
+                startPlayer(currentActiveUrl);
             }
+
         } else {
-            // إخفاء المشغل بالكامل وتصفير رابط الفيديو عند الضغط على إيقاف بث الموقع
             streamSection.style.display = 'none';
-            if (hlsInstance) {
-                hlsInstance.destroy();
-                hlsInstance = null;
-            }
-            video.src = "";
+            currentActiveUrl = "";
+            stopPlayer();
         }
     });
+
+    function startPlayer(url) {
+        const video = document.getElementById('video-player');
+        if (Hls.isSupported()) {
+            if (hlsInstance) hlsInstance.destroy();
+            hlsInstance = new Hls();
+            hlsInstance.loadSource(url);
+            hlsInstance.attachMedia(video);
+            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(e => console.log("Auto-play prevented"));
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = url;
+            video.play().catch(e => console.log("Auto-play prevented"));
+        }
+    }
+
+    function stopPlayer() {
+        const video = document.getElementById('video-player');
+        if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+        }
+        video.src = "";
+    }
 </script>
 </body>
 </html>
