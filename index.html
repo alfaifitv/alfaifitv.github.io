@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <link rel="canonical" href="https://alfaifitv.github.io/"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق</title>
+    <title>الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر</title>
     
-    <meta name="description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية. دليل شامل حول مميزات تطبيق الفيفي تيفي AlfaifiTV.">
-    <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر">
+    <meta name="description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية. دليل شامل حول مميزات تطبيق الفيفي تيفي AlfaifiTV ومتابعة البث المباشر.">
+    <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر, مشغل مباريات">
 
     <script type="application/ld+json">
     {
@@ -26,19 +26,125 @@
             --primary-color: #8e44ad; 
             --bg-color: #1a1a1a; 
             --text-color: #ffffff; 
+            --card-bg: #262626;
         }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; line-height: 1.6; }
-        .container { max-width: 800px; margin: auto; padding: 20px; }
-        header { text-align: center; padding: 50px 0; }
-        h1 { color: var(--primary-color); }
-        .logo-img { max-width: 180px; margin-bottom: 20px; border-radius: 15px; }
-        .btn { display: inline-block; background-color: var(--primary-color); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; margin-top: 10px; cursor: pointer; }
-        .btn:hover { background-color: #732d91; }
-        section { margin: 40px 0; background: #262626; padding: 25px; border-radius: 10px; }
-        h2 { color: var(--primary-color); border-bottom: 2px solid #555; padding-bottom: 10px; }
-        footer { text-align: center; padding: 20px; font-size: 0.9rem; color: #888; }
-        footer a { color: #8e44ad; text-decoration: none; margin-right: 15px; }
-        footer a:hover { text-decoration: underline; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            line-height: 1.6; 
+        }
+        .container { 
+            max-width: 800px; 
+            margin: auto; 
+            padding: 20px; 
+        }
+        header { 
+            text-align: center; 
+            padding: 40px 0 20px 0; 
+        }
+        h1 { 
+            color: var(--primary-color); 
+            margin-top: 10px;
+        }
+        .logo-img { 
+            max-width: 150px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+        }
+        .btn { 
+            display: inline-block; 
+            background-color: var(--primary-color); 
+            color: white; 
+            padding: 12px 25px; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            transition: 0.3s; 
+            margin-top: 10px; 
+            cursor: pointer; 
+            border: none;
+        }
+        .btn:hover { 
+            background-color: #732d91; 
+            transform: translateY(-2px);
+        }
+        section { 
+            margin: 30px 0; 
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 10px; 
+            border-right: 4px solid var(--primary-color);
+        }
+        h2 { 
+            color: var(--primary-color); 
+            margin-top: 0;
+            padding-bottom: 10px; 
+        }
+        
+        /* ستايل مشغل الفيديو */
+        .player-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .player-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* حالة البث (نبض أحمر) */
+        .live-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
+            100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 30px 20px; 
+            font-size: 0.9rem; 
+            color: #888; 
+            border-top: 1px solid #333;
+            margin-top: 50px;
+        }
+        footer a { 
+            color: var(--primary-color); 
+            text-decoration: none; 
+            margin: 0 10px; 
+        }
+        footer a:hover { 
+            text-decoration: underline; 
+        }
     </style>
 </head>
 <body>
@@ -46,23 +152,33 @@
 <div class="container">
     <header>
         <img src="icon-app.png" alt="شعار الفيفي تيفي" class="logo-img">
-        
         <h1>الفيفي تيفي - AlfaifiTV</h1>
-        <p>تجربة البث الرياضي الأكثر استقراراً للأندرويد</p>
-        
+        <p>تجربة البث الرياضي الأكثر استقراراً للأندرويد والموقع الإلكتروني</p>
         <a href="https://www.mediafire.com/file/s1da4kbani2spm2/AlfaifiTV.0.6.apk/file" target="_blank" class="btn">تحميل التطبيق AlfaifiTV.0.6</a>
     </header>
 
+    <section id="live-stream-section" style="display: none;">
+        <div class="live-status">
+            <span class="pulse-dot"></span>
+            <span>مباشر الآن</span>
+        </div>
+        <h2 id="match-title">المباراة الجارية حالياً</h2>
+        <div class="player-container">
+            <video id="video-player" controls autoplay playsinline></video>
+        </div>
+    </section>
+
     <section>
         <h2>ما هو تطبيق الفيفي تيفي (AlfaifiTV)؟</h2>
-        <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة. تم تطوير التطبيق خصيصاً لمتابعة المباريات، الدوريات العالمية، والبطولات الكبرى مباشرة من هاتفك الأندرويد. مع "الفيفي تيفي" (AlfaifiTV)، لن تفوتك أي لحظة حماسية.</p>
+        <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة. تم تطوير التطبيق خصيصاً لمتابعة المباريات، الدوريات العالمية، والبطولات الكبرى مباشرة من هاتفك الأندرويد أو عبر موقعنا الرسمي. مع "الفيفي تيفي" (AlfaifiTV)، لن تفوتك أي لحظة حماسية.</p>
     </section>
 
     <section>
         <h2>لماذا يفضل المستخدمون AlfaifiTV؟</h2>
         <ul>
-            <li><strong>جودة بث عالية:</strong> دعم كامل لتقنيات البث التي تضمن وضوح الصورة.</li>
-            <li><strong>تغطية شاملة:</strong> متابعة لأهم الدوريات والبطولات العالمية والمحلية.</li>
+            <li><strong>جودة بث عالية:</strong> دعم كامل لتقنيات البث الحديثة (HLS/m3u8) التي تضمن استقرار ونقاء الصورة.</li>
+            <li><strong>تحديث فوري وبدون تقطيع:</strong> بفضل الربط السحابي المباشر، يتم توفير أحدث الروابط وسيرفرات البث في نفس اللحظة.</li>
+            <li><strong>تغطية شاملة:</strong> متابعة لأهم الدوريات والبطولات العالمية والمحلية في مكان واحد.</li>
         </ul>
     </section>
 
@@ -72,5 +188,73 @@
     </footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    // ⚠️ استبدل هذا الكائن بالإعدادات الحقيقية الخاصة بمشروعك في Firebase 
+    // تجدها في لوحة تحكم Firebase -> Project Settings -> General -> Web apps
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY_HERE",
+        authDomain: "YOUR_AUTH_DOMAIN_HERE",
+        databaseURL: "YOUR_DATABASE_URL_HERE",
+        projectId: "YOUR_PROJECT_ID_HERE",
+        storageBucket: "YOUR_STORAGE_BUCKET_HERE",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
+        appId: "YOUR_APP_ID_HERE"
+    };
+    
+    // تهيئة الفايربيس
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    
+    let hlsInstance = null;
+
+    // الاستماع الفوري والتلقائي للتغييرات في الفايربيس (المسار: live_match)
+    database.ref('live_match').on('value', (snapshot) => {
+        const data = snapshot.val();
+        const video = document.getElementById('video-player');
+        const streamSection = document.getElementById('live-stream-section');
+        const matchTitleText = document.getElementById('match-title');
+
+        // التحقق مما إذا كان البث مفعلاً وهناك رابط متاح
+        if (data && data.is_active && data.stream_url) {
+            
+            // تحديث عنوان المباراة إذا قمت بتحديده في لوحة التحكم
+            if (data.title) {
+                matchTitleText.innerText = data.title;
+            } else {
+                matchTitleText.innerText = "المباراة المباشرة الحالية";
+            }
+            
+            // إظهار قسم المشغل في الموقع
+            streamSection.style.display = 'block'; 
+
+            // تشغيل الرابط باستخدام Hls.js إذا كان المتصفح يدعمه (مثل Chrome, Firefox, Edge)
+            if (Hls.isSupported()) {
+                if (hlsInstance) {
+                    hlsInstance.destroy(); // تنظيف المشغل القديم إذا كان يعمل لتفادي تداخل الصوت
+                }
+                hlsInstance = new Hls();
+                hlsInstance.loadSource(data.stream_url);
+                hlsInstance.attachMedia(video);
+            } 
+            // تشغيل الرابط مباشرة للمتصفحات التي تدعم m3u8 أصلياً (مثل Safari على الآيفون والماك)
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = data.stream_url;
+            }
+        } else {
+            // إذا قمت بإغلاق البث من لوحة التحكم، يختفي المشغل تماماً من الموقع تلقائياً
+            streamSection.style.display = 'none';
+            if (hlsInstance) {
+                hlsInstance.destroy();
+                hlsInstance = null;
+            }
+            video.src = "";
+        }
+    });
+</script>
 </body>
-</html>  
+</html>
