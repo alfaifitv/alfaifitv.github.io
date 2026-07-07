@@ -109,6 +109,18 @@
             border-radius: 50%;
             animation: pulse 1.5s infinite;
         }
+        
+        /* تنسيق حاويات الإعلانات لتظهر بشكل متناسق في الكمبيوتر والجوال */
+        .ads-container {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
         @keyframes pulse {
             0 { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
             70% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
@@ -135,6 +147,20 @@
         <a href="https://www.mediafire.com/file/s1da4kbani2spm2/AlfaifiTV.0.6.apk/file" target="_blank" class="btn">تحميل التطبيق AlfaifiTV.0.6</a>
     </header>
 
+    <!-- الإعلان الأول: تم دمج كود Adsterra بمقاس 468x60 بنجاح -->
+    <div class="ads-container">
+        <script>
+            atOptions = {
+                'key' : '8060120df504a76b8f6e2838214bd2a1',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
+    </div>
+
     <section id="live-stream-section" style="display: none;">
         <div class="live-status">
             <span class="pulse-dot"></span>
@@ -143,6 +169,20 @@
         <h2 id="match-title">المباراة الجارية حالياً</h2>
         <div class="player-container">
             <video id="video-player" controls autoplay playsinline></video>
+        </div>
+
+        <!-- الإعلان الثاني: تم دمج كود Adsterra بمقاس 320x50 بنجاح -->
+        <div class="ads-container" style="margin-top: 25px;">
+            <script>
+                atOptions = {
+                    'key' : '627554bea89630e9fc4f71e90efb118e',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/627554bea89630e9fc4f71e90efb118e/invoke.js"></script>
         </div>
     </section>
 
@@ -182,13 +222,11 @@
         const streamSection = document.getElementById('live-stream-section');
         const matchTitleText = document.getElementById('match-title');
 
-        // الربط المباشر مع سيرفر 1 من قاعدة البيانات بدون تعقيد
         if (data && data.is_active && data.stream_url_1) {
             
             matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
             streamSection.style.display = 'block'; 
 
-            // التحديث يتم فقط إذا تغير الرابط فعلياً لمنع تكرار التحميل والتعليق
             if (currentActiveUrl !== data.stream_url_1) {
                 currentActiveUrl = data.stream_url_1;
                 startPlayer(currentActiveUrl);
