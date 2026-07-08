@@ -29,6 +29,7 @@
             --bg-color: #1a1a1a; 
             --text-color: #ffffff; 
             --card-bg: #262626;
+            --card-hover: #2f2f2f;
         }
         body { 
             font-family: 'Segoe UI', Tahoma, sans-serif; 
@@ -38,7 +39,7 @@
             line-height: 1.6; 
         }
         .container { 
-            max-width: 800px; 
+            max-width: 850px; 
             margin: auto; 
             padding: 20px; 
         }
@@ -86,6 +87,19 @@
             padding-bottom: 10px; 
         }
         
+        /* ترويسة الأقسام */
+        .section-title {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 8px 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* تصميم مشغل الفيديو */
         .player-container {
             position: relative;
             width: 100%;
@@ -104,7 +118,6 @@
             height: 100%;
         }
         
-        /* تنسيق أزرار السيرفرات المتعددة */
         .server-buttons-container {
             display: flex;
             justify-content: center;
@@ -123,15 +136,93 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        .server-btn:hover {
-            background-color: #444;
-        }
+        .server-btn:hover { background-color: #444; }
         .server-btn.active {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
         
-        .live-status {
+        /* 🌟 تصميم كروت جدول المباريات الجديد 🌟 */
+        .matches-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .match-card {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            transition: 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .match-card:hover {
+            background: var(--card-hover);
+            border-color: var(--primary-color);
+        }
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 35%;
+        }
+        .team.team-left { justify-content: flex-start; text-align: right; }
+        .team.team-right { justify-content: flex-end; text-align: left; }
+        .team img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        .team-name {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .match-info {
+            width: 30%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .match-time {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #f1c40f;
+        }
+        .match-status {
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: #333;
+            color: #bbb;
+        }
+        /* إذا كانت المباراة مباشرة */
+        .match-card.live-now {
+            border-right: 4px solid #e74c3c;
+        }
+        .match-card.live-now .match-status {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            font-weight: bold;
+            animation: pulse-border 1.5s infinite;
+        }
+        .match-details-footer {
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+            margin-top: 8px;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 5px;
+            width: 100%;
+        }
+        
+        .live-status-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -162,9 +253,14 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
-            70% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
-            100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+            0% { transform: scale(0.9); opacity: 1; }
+            70% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(0.9); opacity: 1; }
+        }
+        @keyframes pulse-border {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
 
         footer { 
@@ -174,6 +270,15 @@
             color: #888; 
             border-top: 1px solid #333;
             margin-top: 50px;
+        }
+        
+        /* استعلامات الشاشات الصغيرة للجوال */
+        @media (max-width: 600px) {
+            .match-card { padding: 12px 10px; }
+            .team-name { font-size: 0.85rem; }
+            .team img { width: 30px; height: 30px; }
+            .match-time { font-size: 0.95rem; }
+            .match-status { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -201,18 +306,17 @@
         <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
     </div>
 
-    <!-- قسم عرض المباراة المباشرة والسيرفرات المتعددة -->
+    <!-- قسم الشاشة والمشغل (يظهر عند الضغط على مباراة مباشرة) -->
     <section id="live-stream-section" style="display: none;">
-        <div class="live-status">
+        <div class="live-status-badge">
             <span class="pulse-dot"></span>
-            <span>مباشر الآن</span>
+            <span>أنت تشاهد الآن</span>
         </div>
         <h2 id="match-title">المباراة الجارية حالياً</h2>
         <div class="player-container">
             <video id="video-player" controls autoplay playsinline></video>
         </div>
 
-        <!-- أزرار التنقل بين السيرفرات الثلاثة المضافة حديثاً -->
         <div class="server-buttons-container" id="servers-wrapper"></div>
 
         <!-- الإعلان الثاني: Adsterra بمقاس 320x50 -->
@@ -227,6 +331,14 @@
                 };
             </script>
             <script src="https://www.highperformanceformat.com/627554bea89630e9fc4f71e90efb118e/invoke.js"></script>
+        </div>
+    </section>
+
+    <!-- 🌟 قسم جدول مباريات اليوم المباشر النشط 🌟 -->
+    <section id="schedule-section">
+        <div class="section-title">جدول مباريات اليوم</div>
+        <div class="matches-list" id="matches-container">
+            <p style="text-align: center; color: #888;">جاري تحميل مباريات اليوم...</p>
         </div>
     </section>
 
@@ -260,62 +372,116 @@
     
     let hlsInstance = null;
     let currentActiveUrl = "";
+    let currentOpenedMatchId = null;
 
-    database.ref('live_match').on('value', (snapshot) => {
+    // 🌟 جلب قائمة المباريات من الـ Firebase تحت عقدة 'matches'
+    database.ref('matches').on('value', (snapshot) => {
+        const matchesContainer = document.getElementById('matches-container');
+        matchesContainer.innerHTML = ''; // تفريغ القائمة لإعادة البناء عند أي تحديث
+
         const data = snapshot.val();
+
+        if (!data) {
+            matchesContainer.innerHTML = '<p style="text-align: center; color: #888;">لا توجد مباريات مجدولة اليوم.</p>';
+            return;
+        }
+
+        // تحويل الكائنات إلى مصفوفة للمرور عليها
+        Object.keys(data).forEach((key) => {
+            const match = data[key];
+            
+            // إنشاء كارت المباراة
+            const card = document.createElement('div');
+            card.className = `match-card ${match.is_active ? 'live-now' : ''}`;
+            
+            // بناء محتوى الكارت بالتصميم الرياضي المتناسق
+            card.innerHTML = `
+                <div style="display:flex; flex-direction:column; width:100%;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                        <!-- الفريق الأول -->
+                        <div class="team team-left">
+                            <span class="team-name">${match.team_1_name || 'الفريق 1'}</span>
+                            <img src="${match.team_1_logo || 'icon-app.png'}" alt="logo">
+                        </div>
+                        
+                        <!-- توقيت وحالة المباراة -->
+                        <div class="match-info">
+                            <span class="match-time">${match.match_time || '--:--'}</span>
+                            <span class="match-status">${match.is_active ? 'مباشر الآن' : (match.status_text || 'لم تبدأ')}</span>
+                        </div>
+                        
+                        <!-- الفريق الثاني -->
+                        <div class="team team-right">
+                            <img src="${match.team_2_logo || 'icon-app.png'}" alt="logo">
+                            <span class="team-name">${match.team_2_name || 'الفريق 2'}</span>
+                        </div>
+                    </div>
+                    <!-- تفاصيل إضافية مثل اسم البطولة والمعلق -->
+                    <div class="match-details-footer">
+                        🏆 ${match.league_name || 'بطولة غير محددة'} ${match.channel_name ? ' | 📺 ' + match.channel_name : ''} ${match.commenter ? ' | 🎙️ ' + match.commenter : ''}
+                    </div>
+                </div>
+            `;
+
+            // عند النقر على الكارت: إذا كانت المباراة "مباشرة" يتم فتح المشغل بالأعلى
+            card.onclick = function() {
+                if (match.is_active) {
+                    currentOpenedMatchId = key;
+                    loadMatchStream(match);
+                    // التمرير لأعلى الصفحة لمشاهدة البث مباشرة
+                    document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert("هذه المباراة لم تبدأ بعد، البث المباشر يعمل وقت المباراة فقط.");
+                }
+            };
+
+            matchesContainer.appendChild(card);
+
+            // تحديث المشغل تلقائياً إذا كانت هذه المباراة هي المفتوحة حالياً وحصل تحديث في روابطها من قاعدة البيانات
+            if (currentOpenedMatchId === key) {
+                if (match.is_active) {
+                    loadMatchStream(match);
+                } else {
+                    // إذا أصبحت المباراة غير نشطة فجأة أغلق المشغل
+                    document.getElementById('live-stream-section').style.display = 'none';
+                    stopPlayer();
+                    currentOpenedMatchId = null;
+                }
+            }
+        });
+    });
+
+    // دالة تشغيل روابط السيرفرات للمباراة المحددة
+    function loadMatchStream(match) {
         const streamSection = document.getElementById('live-stream-section');
         const matchTitleText = document.getElementById('match-title');
         const serversWrapper = document.getElementById('servers-wrapper');
 
-        // التحقق من وجود بث نشط ووجود رابط واحد على الأقل للتشغيل
-        if (data && data.is_active && (data.stream_url_1 || data.stream_url_2 || data.stream_url_3)) {
-            
-            matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
-            streamSection.style.display = 'block'; 
+        matchTitleText.innerText = `${match.team_1_name} 🆚 ${match.team_2_name}`;
+        streamSection.style.display = 'block';
 
-            // تحديد الرابط الافتراضي الذي سيعمل تلقائياً عند فتح الصفحة
-            const defaultUrl = data.stream_url_1 || data.stream_url_2 || data.stream_url_3;
+        const defaultUrl = match.stream_url_1 || match.stream_url_2 || match.stream_url_3;
+        serversWrapper.innerHTML = '';
 
-            // إنشاء وبناء أزرار السيرفرات بناءً على الروابط المتاحة في الـ Firebase
-            serversWrapper.innerHTML = '';
-            
-            if (data.stream_url_1) {
-                createButton("سيرفر 1", data.stream_url_1, defaultUrl === data.stream_url_1);
-            }
-            if (data.stream_url_2) {
-                createButton("سيرفر 2", data.stream_url_2, defaultUrl === data.stream_url_2);
-            }
-            if (data.stream_url_3) {
-                createButton("سيرفر 3", data.stream_url_3, defaultUrl === data.stream_url_3);
-            }
+        if (match.stream_url_1) createButton("سيرفر 1", match.stream_url_1, defaultUrl === match.stream_url_1);
+        if (match.stream_url_2) createButton("سيرفر 2", match.stream_url_2, defaultUrl === match.stream_url_2);
+        if (match.stream_url_3) createButton("سيرفر 3", match.stream_url_3, defaultUrl === match.stream_url_3);
 
-            // تشغيل المشغل بالرابط الحالي في حال لم يكن هو المشغل حالياً
-            if (currentActiveUrl !== defaultUrl && !currentActiveUrl) {
-                currentActiveUrl = defaultUrl;
-                startPlayer(currentActiveUrl);
-            }
-
-        } else {
-            streamSection.style.display = 'none';
-            currentActiveUrl = "";
-            serversWrapper.innerHTML = '';
-            stopPlayer();
+        if (currentActiveUrl !== defaultUrl) {
+            currentActiveUrl = defaultUrl;
+            startPlayer(currentActiveUrl);
         }
-    });
+    }
 
-    // دالة مساعدة لإنشاء أزرار السيرفرات وإضافة حدث النقر لتغيير الرابط
     function createButton(text, url, isActive) {
         const wrapper = document.getElementById('servers-wrapper');
         const btn = document.createElement('button');
         btn.className = `server-btn ${isActive ? 'active' : ''}`;
         btn.innerText = text;
         btn.onclick = function() {
-            // إزالة الحالة النشطة من بقية الأزرار وتفعيل هذا الزر
             const allButtons = wrapper.querySelectorAll('.server-btn');
             allButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            // تغيير الرابط وتشغيل المشغل
             currentActiveUrl = url;
             startPlayer(url);
         };
@@ -345,6 +511,7 @@
             hlsInstance = null;
         }
         video.src = "";
+        currentActiveUrl = "";
     }
 </script>
 </body>
