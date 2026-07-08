@@ -98,6 +98,16 @@
             margin-bottom: 20px;
         }
 
+        .player-placeholder {
+            text-align: center;
+            padding: 40px 20px;
+            color: #aaa;
+            font-weight: bold;
+            border: 2px dashed #444;
+            border-radius: 8px;
+            background: #111;
+        }
+
         .player-container {
             position: relative;
             width: 100%;
@@ -162,17 +172,21 @@
             background: var(--card-hover);
             border-color: var(--primary-color);
         }
+        .match-card.selected-active {
+            border: 1px solid var(--primary-color);
+            background: rgba(142, 68, 173, 0.1);
+        }
         .team {
             display: flex;
             align-items: center;
             gap: 12px;
-            width: 35%;
+            width: 38%;
         }
-        .team.team-left { justify-content: flex-start; text-align: right; }
-        .team.team-right { justify-content: flex-end; text-align: left; }
+        .team.team-home { justify-content: flex-start; text-align: right; }
+        .team.team-away { justify-content: flex-end; text-align: left; }
         .team img {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
         }
         .team-name {
@@ -180,7 +194,7 @@
             font-weight: bold;
         }
         .match-info {
-            width: 30%;
+            width: 24%;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -200,14 +214,10 @@
             background: #333;
             color: #bbb;
         }
-        .match-card.live-now {
-            border-right: 4px solid #e74c3c;
-        }
-        .match-card.live-now .match-status {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
+        .match-card.has-stream .match-status {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
             font-weight: bold;
-            animation: pulse-border 1.5s infinite;
         }
         .match-details-footer {
             font-size: 0.8rem;
@@ -254,11 +264,6 @@
             70% { transform: scale(1); opacity: 0.5; }
             100% { transform: scale(0.9); opacity: 1; }
         }
-        @keyframes pulse-border {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
 
         footer { 
             text-align: center; 
@@ -302,18 +307,11 @@
         <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
     </div>
 
-    <!-- قسم المشغل (يفتح تلقائياً عند وجود بث نشط) -->
-    <section id="live-stream-section" style="display: none;">
-        <div class="live-status-badge">
-            <span class="pulse-dot"></span>
-            <span>مباشر الآن</span>
+    <!-- قسم منطقة المشغل (يحدث محتواه عند اختيار أي مباراة من الجدول) -->
+    <section id="live-stream-section">
+        <div id="player-area-content">
+            <div class="player-placeholder">📺 يرجى اختيار مباراة من جدول المباريات بالأسفل لبدء البث المباشر</div>
         </div>
-        <h2 id="match-title">المباراة الجارية حالياً</h2>
-        <div class="player-container">
-            <video id="video-player" controls autoplay playsinline></video>
-        </div>
-
-        <div class="server-buttons-container" id="servers-wrapper"></div>
 
         <!-- الإعلان الثاني: Adsterra بمقاس 320x50 -->
         <div class="ads-container" style="margin-top: 25px;">
@@ -330,11 +328,11 @@
         </div>
     </section>
 
-    <!-- 🌟 قسم جدول مباريات اليوم المرتبط بـ live_match 🌟 -->
+    <!-- 🌟 قسم جدول مباريات اليوم النشط والمرتبط بـ matches 🌟 -->
     <section id="schedule-section">
         <div class="section-title">جدول مباريات اليوم</div>
         <div class="matches-list" id="matches-container">
-            <p style="text-align: center; color: #888;">جاري تحميل جدول المباريات...</p>
+            <p style="text-align: center; color: #888;">جاري تحميل قائمة المباريات من السيرفر...</p>
         </div>
     </section>
 
@@ -367,112 +365,124 @@
     const database = firebase.database();
     
     let hlsInstance = null;
-    let currentActiveUrl = "";
+    let selectedMatchKey = null; // لتخزين معرف المباراة الحالية المفتوحة
 
-    // 🌟 الاستماع المباشر لعقدة 'live_match' لعرض البث والجدول معاً بنفس الوقت
-    database.ref('live_match').on('value', (snapshot) => {
-        const streamSection = document.getElementById('live-stream-section');
-        const matchTitleText = document.getElementById('match-title');
+    // جلب وعرض قائمة المباريات من عقدة 'matches' مباشرة
+    database.ref('matches').on('value', (snapshot) => {
         const matchesContainer = document.getElementById('matches-container');
-        
+        matchesContainer.innerHTML = '';
         const data = snapshot.val();
 
-        // 1. إدارة قسم مشغل الفيديو بالأعلى
-        if (data && data.is_active && (data.stream_url_1 || data.stream_url_2 || data.stream_url_3)) {
-            matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
-            streamSection.style.display = 'block'; 
-
-            const defaultUrl = data.stream_url_1 || data.stream_url_2 || data.stream_url_3;
-            buildServerButtons(data, defaultUrl);
-
-            if (currentActiveUrl !== defaultUrl) {
-                currentActiveUrl = defaultUrl;
-                startPlayer(currentActiveUrl);
-            }
-        } else {
-            streamSection.style.display = 'none';
-            currentActiveUrl = "";
-            stopPlayer();
+        if (!data) {
+            matchesContainer.innerHTML = '<p style="text-align: center; color: #888;">لا توجد مباريات مضافة حالياً.</p>';
+            return;
         }
 
-        // 2. إدارة وتحديث كارت الجدول بالأسفل تلقائياً
-        matchesContainer.innerHTML = '';
-        if (data) {
-            // فصل العنوان المكتوب في الفايربيس (مثل "فرنسا vs المغرب") ليعرض كفريقين بشكل أنيق
-            let team1 = "الفريق 1";
-            let team2 = "الفريق 2";
-            if (data.title && data.title.includes("vs")) {
-                const parts = data.title.split("vs");
-                team1 = parts[0].trim();
-                team2 = parts[1].trim();
-            } else if (data.title && data.title.includes("-")) {
-                const parts = data.title.split("-");
-                team1 = parts[0].trim();
-                team2 = parts[1].trim();
-            } else {
-                team1 = data.title || "مباراة جارية";
-                team2 = "بث مباشر";
-            }
+        Object.keys(data).forEach((key) => {
+            const match = data[key];
+            if (!match.team_home) return; 
+
+            // التحقق مما إذا كانت هذه المباراة تحتوي على روابط بث نشطة
+            const hasStream = (match.stream_url_1 || match.stream_url_2 || match.stream_url_3);
+            const isSelected = (key === selectedMatchKey);
 
             const card = document.createElement('div');
-            card.className = `match-card ${data.is_active ? 'live-now' : ''}`;
+            card.className = `match-card ${hasStream ? 'has-stream' : ''} ${isSelected ? 'selected-active' : ''}`;
+            
             card.innerHTML = `
                 <div style="display:flex; flex-direction:column; width:100%;">
                     <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                        <div class="team team-left">
-                            <span class="team-name">${team1}</span>
-                            <img src="icon-app.png" alt="logo">
+                        <!-- صاحب الأرض -->
+                        <div class="team team-home">
+                            <span class="team-name">${match.team_home}</span>
+                            <img src="${match.team_home_logo || 'icon-app.png'}" alt="logo">
                         </div>
+                        
+                        <!-- التوقيت والنتيجة والحالة -->
                         <div class="match-info">
-                            <span class="match-time">مباشر الآن</span>
-                            <span class="match-status">${data.is_active ? 'جاري الآن' : 'غير نشط'}</span>
+                            <span class="match-time">${match.score ? match.score : (match.time || '--:--')}</span>
+                            <span class="match-status">${hasStream ? 'اضغط للمشاهدة' : (match.status || 'لم تبدأ')}</span>
                         </div>
-                        <div class="team team-right">
-                            <img src="icon-app.png" alt="logo">
-                            <span class="team-name">${team2}</span>
+                        
+                        <!-- الضيف -->
+                        <div class="team team-away">
+                            <img src="${match.team_away_logo || 'icon-app.png'}" alt="logo">
+                            <span class="team-name">${match.team_away}</span>
                         </div>
                     </div>
+                    <!-- تفاصيل البطولة -->
                     <div class="match-details-footer">
-                        🏆 تطبيق الفيفي تيفي الرسمى | تابع عبر المتصفح بجودة مستقرة
+                        🏆 ${match.group || 'بطولة رياضية'} ${match.day ? ' | 📅 ' + match.day : ''}
                     </div>
                 </div>
             `;
-            
-            // عند الضغط على الكارت يصعد الصفحة للمشغل بسلاسة
+
+            // عند الضغط على الكارت يتم تحميل مشغل الفيديو الخاص بهذه المباراة بعينها
             card.onclick = function() {
-                document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
+                if (hasStream) {
+                    selectedMatchKey = key;
+                    loadMatchPlayer(match);
+                    // إعادة رسم الجدول لتحديث الكارت النشط باللون المميز
+                    document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // تحديث الـ Class للتمميز البصري بدون إعادة تحميل الجدول كاملاً
+                    document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected-active'));
+                    card.classList.add('selected-active');
+                } else {
+                    alert("هذه المباراة لا تحتوي على بث مباشر حالياً.");
+                }
             };
+
             matchesContainer.appendChild(card);
-        } else {
-            matchesContainer.innerHTML = '<p style="text-align: center; color: #888;">لا توجد مباريات مضافة حالياً.</p>';
-        }
+        });
     });
 
-    function buildServerButtons(data, defaultUrl) {
+    // دالة بناء وتشغيل الفيديو للمباراة التي تم النقر عليها
+    function loadMatchPlayer(match) {
+        const playerArea = document.getElementById('player-area-content');
+        
+        // بناء الهيكل الداخلي للمشغل والسيرفرات
+        playerArea.innerHTML = `
+            <div class="live-status-badge">
+                <span class="pulse-dot"></span>
+                <span>بث مباشر نشط</span>
+            </div>
+            <h2>${match.team_home} vs ${match.team_away}</h2>
+            <div class="player-container">
+                <video id="video-player" controls autoplay playsinline></video>
+            </div>
+            <div class="server-buttons-container" id="servers-wrapper"></div>
+        `;
+
+        const defaultUrl = match.stream_url_1 || match.stream_url_2 || match.stream_url_3;
+        
+        // إنشاء أزرار السيرفرات الخاصة بهذه المباراة
         const serversWrapper = document.getElementById('servers-wrapper');
-        serversWrapper.innerHTML = '';
-        if (data.stream_url_1) createButton("سيرفر 1", data.stream_url_1, defaultUrl === data.stream_url_1);
-        if (data.stream_url_2) createButton("سيرفر 2", data.stream_url_2, defaultUrl === data.stream_url_2);
-        if (data.stream_url_3) createButton("سيرفر 3", data.stream_url_3, defaultUrl === data.stream_url_3);
+        if (match.stream_url_1) createServerButton("سيرفر 1", match.stream_url_1, defaultUrl === match.stream_url_1, serversWrapper);
+        if (match.stream_url_2) createServerButton("سيرفر 2", match.stream_url_2, defaultUrl === match.stream_url_2, serversWrapper);
+        if (match.stream_url_3) createServerButton("سيرفر 3", match.stream_url_3, defaultUrl === match.stream_url_3, serversWrapper);
+
+        // تشغيل البث المباشر فوراً
+        startPlayer(defaultUrl);
     }
 
-    function createButton(text, url, isActive) {
-        const wrapper = document.getElementById('servers-wrapper');
+    function createServerButton(text, url, isActive, container) {
         const btn = document.createElement('button');
         btn.className = `server-btn ${isActive ? 'active' : ''}`;
         btn.innerText = text;
         btn.onclick = function() {
-            const allButtons = wrapper.querySelectorAll('.server-btn');
+            const allButtons = container.querySelectorAll('.server-btn');
             allButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            currentActiveUrl = url;
             startPlayer(url);
         };
-        wrapper.appendChild(btn);
+        container.appendChild(btn);
     }
 
     function startPlayer(url) {
         const video = document.getElementById('video-player');
+        if (!video) return;
+
         if (Hls.isSupported()) {
             if (hlsInstance) hlsInstance.destroy();
             hlsInstance = new Hls();
@@ -485,15 +495,6 @@
             video.src = url;
             video.play().catch(e => console.log("Auto-play prevented"));
         }
-    }
-
-    function stopPlayer() {
-        const video = document.getElementById('video-player');
-        if (hlsInstance) {
-            hlsInstance.destroy();
-            hlsInstance = null;
-        }
-        video.src = "";
     }
 </script>
 </body>
