@@ -293,7 +293,7 @@
         <a href="https://www.mediafire.com/file/s1da4kbani2spm2/AlfaifiTV.0.6.apk/file" target="_blank" class="btn">تحميل التطبيق AlfaifiTV.0.6</a>
     </header>
 
-    <!-- الإعلان الأول: Adsterra بمقاس 468x60 -->
+    <!-- الإعلان الأول -->
     <div class="ads-container">
         <script>
             atOptions = {
@@ -307,7 +307,7 @@
         <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
     </div>
 
-    <!-- 🌟 [أولاً] قسم جدول مباريات اليوم أصبح في الأعلى 🌟 -->
+    <!-- قسم جدول مباريات اليوم -->
     <section id="schedule-section">
         <div class="section-title">جدول مباريات اليوم</div>
         <div class="matches-list" id="matches-container">
@@ -315,13 +315,13 @@
         </div>
     </section>
 
-    <!-- 📺 [ثانياً] قسم مشغل الفيديو والبث المباشر أصبح في الأسفل -->
+    <!-- قسم مشغل الفيديو والبث المباشر -->
     <section id="live-stream-section">
         <div id="player-area-content">
             <div class="player-placeholder">📺 يرجى اختيار مباراة من جدول المباريات بالأعلى لبدء البث المباشر هنا</div>
         </div>
 
-        <!-- الإعلان الثاني: Adsterra بمقاس 320x50 -->
+        <!-- الإعلان الثاني -->
         <div class="ads-container" style="margin-top: 25px;">
             <script>
                 atOptions = {
@@ -367,7 +367,17 @@
     let hlsInstance = null;
     let selectedMatchKey = null; 
 
-    // جلب وعرض قائمة المباريات من عقدة 'matches' مباشرة
+    // دالة لإيقاف المشغل وتنظيفه (تُستدعى عندما تحذف أنت البث من لوحة التحكم)
+    function clearPlayer() {
+        const playerArea = document.getElementById('player-area-content');
+        playerArea.innerHTML = '<div class="player-placeholder">📺 تم إنهاء البث أو يرجى اختيار مباراة من الجدول.</div>';
+        if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+        }
+    }
+
+    // جلب وعرض قائمة المباريات ومراقبة أي تغيير فيها
     database.ref('matches').on('value', (snapshot) => {
         const matchesContainer = document.getElementById('matches-container');
         matchesContainer.innerHTML = '';
@@ -375,7 +385,22 @@
 
         if (!data) {
             matchesContainer.innerHTML = '<p style="text-align: center; color: #888;">لا توجد مباريات مضافة حالياً.</p>';
+            clearPlayer(); // إيقاف البث إذا حذفت كل المباريات
+            selectedMatchKey = null;
             return;
+        }
+
+        // 🛑 [المنطق الجديد لإيقاف البث من لوحة التحكم] 🛑
+        // التحقق مما إذا كانت المباراة المفتوحة حالياً لا تزال تملك روابط بث بعد التحديث
+        if (selectedMatchKey) {
+            const currentActiveMatch = data[selectedMatchKey];
+            const stillHasStream = currentActiveMatch && (currentActiveMatch.stream_url_1 || currentActiveMatch.stream_url_2 || currentActiveMatch.stream_url_3);
+            
+            if (!stillHasStream) {
+                // إذا قمت أنت بمسح الروابط، سيتم إغلاق المشغل فوراً
+                clearPlayer();
+                selectedMatchKey = null;
+            }
         }
 
         Object.keys(data).forEach((key) => {
@@ -391,42 +416,35 @@
             card.innerHTML = `
                 <div style="display:flex; flex-direction:column; width:100%;">
                     <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                        <!-- صاحب الأرض -->
                         <div class="team team-home">
                             <span class="team-name">${match.team_home}</span>
                             <img src="${match.team_home_logo || 'icon-app.png'}" alt="logo">
                         </div>
                         
-                        <!-- التوقيت والنتيجة والحالة -->
                         <div class="match-info">
                             <span class="match-time">${match.score ? match.score : (match.time || '--:--')}</span>
                             <span class="match-status">${hasStream ? 'اضغط للمشاهدة' : (match.status || 'لم تبدأ')}</span>
                         </div>
                         
-                        <!-- الضيف -->
                         <div class="team team-away">
                             <img src="${match.team_away_logo || 'icon-app.png'}" alt="logo">
                             <span class="team-name">${match.team_away}</span>
                         </div>
                     </div>
-                    <!-- تفاصيل البطولة -->
                     <div class="match-details-footer">
                         🏆 ${match.group || 'بطولة رياضية'} ${match.day ? ' | 📅 ' + match.day : ''}
                     </div>
                 </div>
             `;
 
-            // عند الضغط على الكارت يتم تحميل مشغل الفيديو الخاص بها بالأسفل
             card.onclick = function() {
                 if (hasStream) {
                     selectedMatchKey = key;
                     loadMatchPlayer(match);
                     
-                    // تحديد الكارت بصرياً
                     document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected-active'));
                     card.classList.add('selected-active');
                     
-                    // تحريك الشاشة للمشغل بالأسفل بنعومة ليرى الزائر الفيديو وهو يشتغل
                     document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
                 } else {
                     alert("هذه المباراة لا تحتوي على بث مباشر حالياً.");
@@ -437,7 +455,6 @@
         });
     });
 
-    // دالة بناء وتشغيل الفيديو للمباراة التي تم النقر عليها
     function loadMatchPlayer(match) {
         const playerArea = document.getElementById('player-area-content');
         
