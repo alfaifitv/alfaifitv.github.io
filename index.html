@@ -259,6 +259,42 @@
             overflow: hidden;
         }
 
+        /* تصميم شاشة حجب مانع الإعلانات */
+        #adblock-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.98);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .adblock-box {
+            background: #262626;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(142, 68, 173, 0.2);
+        }
+        .adblock-box h3 {
+            color: #e74c3c;
+            font-size: 1.6rem;
+            margin-top: 0;
+        }
+        .adblock-box p {
+            color: #ccc;
+            font-size: 1.05rem;
+            margin: 15px 0 25px 0;
+        }
+
         @keyframes pulse {
             0% { transform: scale(0.9); opacity: 1; }
             70% { transform: scale(1); opacity: 0.5; }
@@ -285,6 +321,15 @@
 </head>
 <body>
 
+<!-- شاشة حظر المحتوى لـ AdBlock -->
+<div id="adblock-overlay">
+    <div class="adblock-box">
+        <h3>تم رصد مانع إعلانات نشط! 🚫</h3>
+        <p>عزيزي المتابع، موقع الفيفي تيفي يقدم البث المباشر مجاناً بدون اشتراكات، واستمرارنا يعتمد كلياً على الإعلانات المقترحة. يرجى إيقاف مانع الإعلانات (Ad Blocker) ثم أعد تحميل الصفحة للاستمتاع بالمشاهدة فوراً.</p>
+        <button class="btn" onclick="window.location.reload();">لقد قمت بإيقافه، أعد تحميل الصفحة 🔄</button>
+    </div>
+</div>
+
 <div class="container">
     <header>
         <img src="icon-app.png" alt="شعار الفيفي تيفي" class="logo-img">
@@ -294,7 +339,7 @@
     </header>
 
     <!-- الإعلان الأول -->
-    <div class="ads-container">
+    <div class="ads-container" id="ad-banner-top">
         <script>
             atOptions = {
                 'key' : '8060120df504a76b8f6e2838214bd2a1',
@@ -367,7 +412,100 @@
     let hlsInstance = null;
     let selectedMatchKey = null; 
 
-    // دالة لإيقاف المشغل وتنظيفه (تُستدعى عندما تحذف أنت البث من لوحة التحكم)
+    // 🛑 فحص مانع الإعلانات (AdBlock Detector) 🛑
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            const adContainer = document.querySelector('#ad-banner-top iframe');
+            
+            // إذا كان الـ iframe ملغياً أو غير موجود، أو الارتفاع صفر (محجوب)
+            if (!adContainer || adContainer.offsetHeight === 0) {
+                document.getElementById('adblock-overlay').style.display = 'flex';
+                // إيقاف أي اتصال بـ Firebase لحماية استهلاك البيانات طالما لم يطفئ الحاظر
+                return;
+            } else {
+                // الكود يكمل تشغيل البيانات طبيعي إذا لم يتم رصد مانع
+                initFirebaseListening();
+            }
+        }, 1500); // ننتظر ثانية ونصف للتأكد من حالة الإعلانات تماماً
+    });
+
+    function initFirebaseListening() {
+        // جلب وعرض قائمة المباريات ومراقبة أي تغيير فيها
+        database.ref('matches').on('value', (snapshot) => {
+            const matchesContainer = document.getElementById('matches-container');
+            matchesContainer.innerHTML = '';
+            const data = snapshot.val();
+
+            if (!data) {
+                matchesContainer.innerHTML = '<p style="text-align: center; color: #888;">لا توجد مباريات مضافة حالياً.</p>';
+                clearPlayer(); 
+                selectedMatchKey = null;
+                return;
+            }
+
+            if (selectedMatchKey) {
+                const currentActiveMatch = data[selectedMatchKey];
+                const stillHasStream = currentActiveMatch && (currentActiveMatch.stream_url_1 || currentActiveMatch.stream_url_2 || currentActiveMatch.stream_url_3);
+                
+                if (!stillHasStream) {
+                    clearPlayer();
+                    selectedMatchKey = null;
+                }
+            }
+
+            Object.keys(data).forEach((key) => {
+                const match = data[key];
+                if (!match.team_home) return; 
+
+                const hasStream = (match.stream_url_1 || match.stream_url_2 || match.stream_url_3);
+                const isSelected = (key === selectedMatchKey);
+
+                const card = document.createElement('div');
+                card.className = `match-card ${hasStream ? 'has-stream' : ''} ${isSelected ? 'selected-active' : ''}`;
+                
+                card.innerHTML = `
+                    <div style="display:flex; flex-direction:column; width:100%;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                            <div class="team team-home">
+                                <span class="team-name">${match.team_home}</span>
+                                <img src="${match.team_home_logo || 'icon-app.png'}" alt="logo">
+                            </div>
+                            
+                            <div class="match-info">
+                                <span class="match-time">${match.score ? match.score : (match.time || '--:--')}</span>
+                                <span class="match-status">${hasStream ? 'اضغط للمشاهدة' : (match.status || 'لم تبدأ')}</span>
+                            </div>
+                            
+                            <div class="team team-away">
+                                <img src="${match.team_away_logo || 'icon-app.png'}" alt="logo">
+                                <span class="team-name">${match.team_away}</span>
+                            </div>
+                        </div>
+                        <div class="match-details-footer">
+                            🏆 ${match.group || 'بطولة رياضية'} ${match.day ? ' | 📅 ' + match.day : ''}
+                        </div>
+                    </div>
+                `;
+
+                card.onclick = function() {
+                    if (hasStream) {
+                        selectedMatchKey = key;
+                        loadMatchPlayer(match);
+                        
+                        document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected-active'));
+                        card.classList.add('selected-active');
+                        
+                        document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        alert("هذه المباراة لا تحتوي على بث مباشر حالياً.");
+                    }
+                };
+
+                matchesContainer.appendChild(card);
+            });
+        });
+    }
+
     function clearPlayer() {
         const playerArea = document.getElementById('player-area-content');
         playerArea.innerHTML = '<div class="player-placeholder">📺 تم إنهاء البث أو يرجى اختيار مباراة من الجدول.</div>';
@@ -376,84 +514,6 @@
             hlsInstance = null;
         }
     }
-
-    // جلب وعرض قائمة المباريات ومراقبة أي تغيير فيها
-    database.ref('matches').on('value', (snapshot) => {
-        const matchesContainer = document.getElementById('matches-container');
-        matchesContainer.innerHTML = '';
-        const data = snapshot.val();
-
-        if (!data) {
-            matchesContainer.innerHTML = '<p style="text-align: center; color: #888;">لا توجد مباريات مضافة حالياً.</p>';
-            clearPlayer(); // إيقاف البث إذا حذفت كل المباريات
-            selectedMatchKey = null;
-            return;
-        }
-
-        // 🛑 [المنطق الجديد لإيقاف البث من لوحة التحكم] 🛑
-        // التحقق مما إذا كانت المباراة المفتوحة حالياً لا تزال تملك روابط بث بعد التحديث
-        if (selectedMatchKey) {
-            const currentActiveMatch = data[selectedMatchKey];
-            const stillHasStream = currentActiveMatch && (currentActiveMatch.stream_url_1 || currentActiveMatch.stream_url_2 || currentActiveMatch.stream_url_3);
-            
-            if (!stillHasStream) {
-                // إذا قمت أنت بمسح الروابط، سيتم إغلاق المشغل فوراً
-                clearPlayer();
-                selectedMatchKey = null;
-            }
-        }
-
-        Object.keys(data).forEach((key) => {
-            const match = data[key];
-            if (!match.team_home) return; 
-
-            const hasStream = (match.stream_url_1 || match.stream_url_2 || match.stream_url_3);
-            const isSelected = (key === selectedMatchKey);
-
-            const card = document.createElement('div');
-            card.className = `match-card ${hasStream ? 'has-stream' : ''} ${isSelected ? 'selected-active' : ''}`;
-            
-            card.innerHTML = `
-                <div style="display:flex; flex-direction:column; width:100%;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                        <div class="team team-home">
-                            <span class="team-name">${match.team_home}</span>
-                            <img src="${match.team_home_logo || 'icon-app.png'}" alt="logo">
-                        </div>
-                        
-                        <div class="match-info">
-                            <span class="match-time">${match.score ? match.score : (match.time || '--:--')}</span>
-                            <span class="match-status">${hasStream ? 'اضغط للمشاهدة' : (match.status || 'لم تبدأ')}</span>
-                        </div>
-                        
-                        <div class="team team-away">
-                            <img src="${match.team_away_logo || 'icon-app.png'}" alt="logo">
-                            <span class="team-name">${match.team_away}</span>
-                        </div>
-                    </div>
-                    <div class="match-details-footer">
-                        🏆 ${match.group || 'بطولة رياضية'} ${match.day ? ' | 📅 ' + match.day : ''}
-                    </div>
-                </div>
-            `;
-
-            card.onclick = function() {
-                if (hasStream) {
-                    selectedMatchKey = key;
-                    loadMatchPlayer(match);
-                    
-                    document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected-active'));
-                    card.classList.add('selected-active');
-                    
-                    document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    alert("هذه المباراة لا تحتوي على بث مباشر حالياً.");
-                }
-            };
-
-            matchesContainer.appendChild(card);
-        });
-    });
 
     function loadMatchPlayer(match) {
         const playerArea = document.getElementById('player-area-content');
