@@ -1,226 +1,282 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="UTF-8">
+    <link rel="canonical" href="https://alfaifitv.github.io/"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlfaifiTV - الفيفي تيفي</title>
+    <title>الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر</title>
     
-    <!-- استدعاء مشغل Clappr المتطور والذكي للبث المباشر -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <meta name="description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية. دليل شامل حول مميزات تطبيق الفيفي تيفي AlfaifiTV ومتابعة البث المباشر.">
+    <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر, مشغل مباريات">
+
+    <!-- Open Graph / Facebook / Discord -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alfaifitv.github.io/">
+    <meta property="og:title" content="الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر">
+    <meta property="og:description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية.">
+    <meta property="og:image" content="https://alfaifitv.github.io/icon-app.png">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://alfaifitv.github.io/">
+    <meta name="twitter:title" content="الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر">
+    <meta name="twitter:description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية.">
+    <meta name="twitter:image" content="https://alfaifitv.github.io/icon-app.png">
 
     <style>
-        body {
-            background-color: #0c0c0c;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
+        :root { 
+            --primary-color: #8e44ad; 
+            --bg-color: #1a1a1a; 
+            --text-color: #ffffff; 
+            --card-bg: #262626;
         }
-
-        header {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            text-align: center;
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            line-height: 1.6; 
         }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin: 0;
+        .container { 
+            max-width: 800px; 
+            margin: auto; 
+            padding: 20px; 
         }
-
-        /* حاوية الفيديو والمشغل */
-        .video-container {
-            width: 90%;
-            max-width: 850px;
-            aspect-ratio: 16 / 9;
-            background-color: #000000;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            position: relative;
-            border: 1px solid #222;
+        header { 
+            text-align: center; 
+            padding: 40px 0 20px 0; 
         }
-
-        #player {
-            width: 100%;
-            height: 100%;
+        h1 { 
+            color: var(--primary-color); 
+            margin-top: 10px;
         }
-
-        /* شاشة توقف البث الأنيقة */
-        .stream-offline {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #151515;
-            z-index: 99;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #ff4747;
-            font-size: 1.6rem;
-            font-weight: bold;
+        .logo-img { 
+            max-width: 150px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
         }
-
-        .stream-offline span {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-        }
-
-        /* قسم السيرفرات والأزرار التفاعلية أسفل المشغل */
-        .servers-section {
-            width: 90%;
-            max-width: 850px;
-            margin-top: 25px;
-            text-align: center;
-        }
-
-        .servers-title {
-            font-size: 1.1rem;
-            color: #aaaaaa;
-            margin-bottom: 12px;
-        }
-
-        .buttons-grid {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .server-btn {
-            background-color: #6A42C2; /* اللون البنفسجي الخاص بتطبيقك */
-            color: white;
+        .btn { 
+            display: inline-block; 
+            background-color: var(--primary-color); 
+            color: white; 
+            padding: 12px 25px; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            transition: 0.3s; 
+            margin-top: 10px; 
+            cursor: pointer; 
             border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(106, 66, 194, 0.3);
         }
-
-        .server-btn:hover {
-            background-color: #5533A1;
+        .btn:hover { 
+            background-color: #732d91; 
             transform: translateY(-2px);
         }
+        section { 
+            margin: 30px 0; 
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 10px; 
+            border-right: 4px solid var(--primary-color);
+        }
+        h2 { 
+            color: var(--primary-color); 
+            margin-top: 0;
+            padding-bottom: 10px; 
+        }
+        
+        /* تحديث الحاوية لتتناسب مع أبعاد مشغل Clappr الذكي */
+        .player-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        #clappr-player {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .live-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .ads-container {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-        .server-btn.active {
-            background-color: #ff4747; /* تمييز السيرفر الشغال */
-            box-shadow: 0 4px 12px rgba(255, 71, 71, 0.4);
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
+            100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 30px 20px; 
+            font-size: 0.9rem; 
+            color: #888; 
+            border-top: 1px solid #333;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
-
+<div class="container">
     <header>
-        <h1>AlfaifiTV - الفيفي تيفي</h1>
+        <img src="icon-app.png" alt="شعار الفيفي تيفي" class="logo-img">
+        <h1>الفيفي تيفي - AlfaifiTV</h1>
+        <p>تجربة البث الرياضي الأكثر استقراراً للأندرويد والموقع الإلكتروني</p>
+        <a href="https://www.mediafire.com/file/s1da4kbani2spm2/AlfaifiTV.0.6.apk/file" target="_blank" class="btn">تحميل التطبيق AlfaifiTV.0.6</a>
     </header>
 
-    <!-- حاوية المشغل وبداخلها شاشة التوقف الذكية -->
-    <div class="video-container">
-        <div id="offlineScreen" class="stream-offline">
-            <span>📺</span>
-            البث المباشر متوقف حالياً
-        </div>
-        <div id="player"></div>
+    <!-- الإعلان الأول -->
+    <div class="ads-container">
+        <script>
+            atOptions = {
+                'key' : '8060120df504a76b8f6e2838214bd2a1',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
     </div>
 
-    <!-- قسم السيرفرات والأزرار -->
-    <div class="servers-section">
-        <div class="servers-title">اختر سيرفر المشاهدة المناسب لسرعتك:</div>
-        <div class="buttons-grid">
-            <button class="server-btn active" onclick="changeServer(1)">سيرفر 1 (رئيسي)</button>
-            <button class="server-btn" onclick="changeServer(2)">سيرفر 2 (احتياطي)</button>
-            <button class="server-btn" onclick="changeServer(3)">سيرفر متعدد الجودات</button>
+    <section id="live-stream-section" style="display: none;">
+        <div class="live-status">
+            <span class="pulse-dot"></span>
+            <span>مباشر الآن</span>
         </div>
-    </div>
+        <h2 id="match-title">المباراة الجارية حالياً</h2>
+        
+        <!-- هنا تم استبدال الكود بـ Clappr Player المستقل لعلاج التقطيع وسرعة الاستجابة -->
+        <div class="player-container">
+            <div id="clappr-player"></div>
+        </div>
 
-    <!-- استدعاء Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+        <!-- الإعلان الثاني -->
+        <div class="ads-container" style="margin-top: 25px;">
+            <script>
+                atOptions = {
+                    'key' : '627554bea89630e9fc4f71e90efb118e',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/627554bea89630e9fc4f71e90efb118e/invoke.js"></script>
+        </div>
+    </section>
 
-    <script>
-        // إعدادات الفايربيس الخاصة بمشروعك
-        const firebaseConfig = {
-            apiKey: "AIzaSyAsb-l_tMscU_i9X68p01mU_XjFmU0wXbc",
-            authDomain: "alfaifitv-6f5b2.firebaseapp.com",
-            databaseURL: "https://alfaifitv-6f5b2-default-rtdb.firebaseio.com",
-            projectId: "alfaifitv-6f5b2",
-            storageBucket: "alfaifitv-6f5b2.appspot.com",
-            messagingSenderId: "1056492837410",
-            appId: "1:1056492837410:web:d8c5b36e8fa172b49c0c3a"
-        };
+    <section>
+        <h2>ما هو تطبيق الفيفي تيفي (AlfaifiTV)؟</h2>
+        <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة.</p>
+    </section>
 
-        // تهيئة الفايربيس
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+    <footer>
+        <p>© 2026 AlfaifiTV - الموقع الرسمي</p>
+    </footer>
+</div>
 
-        let clapprPlayer = null;
-        let currentUrl = "";
+<!-- استدعاء مشغل Clappr المستقل والمحمي ضد مشاكل المتصفحات -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 
-        // دالة لتشغيل أو تحديث البث داخل المشغل
-        function loadStream(url) {
-            currentUrl = url;
-            const offlineScreen = document.getElementById('offlineScreen');
+<!-- مكتبات الفايربيس الأصلية الخاصة بك -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-            // فحص كود الإيقاف الذكي (لو فارغ أو مكتوب off أو stop)
-            if (!url || url.trim() === "" || url.toLowerCase() === "off" || url.toLowerCase() === "stop") {
-                if (clapprPlayer) {
-                    clapprPlayer.stop();
-                }
-                offlineScreen.style.display = 'flex'; // إظهار شاشة البث متوقف
-            } else {
-                offlineScreen.style.display = 'none'; // إخفاء شاشة التوقف
-                
-                if (clapprPlayer) {
-                    // إذا المشغل موجود مسبقاً، نغير الرابط فقط فوراً
-                    clapprPlayer.load(url);
-                } else {
-                    // إنشاء المشغل لأول مرة
-                    clapprPlayer = new Clappr.Player({
-                        source: url,
-                        parentId: "#player",
-                        width: "100%",
-                        height: "100%",
-                        autoPlay: true,
-                        mute: false,
-                        strings: { 'ar': { 'live': 'مباشر' } },
-                        language: 'ar'
-                    });
-                }
+<script>
+    // الإعدادات الخاصة بقاعدة بيانات AlfaifiTV
+    const firebaseConfig = {
+        apiKey: "AIzaSyAngv8D7jXNFWrr0yS8fW51_3leSoot88w",
+        authDomain: "alfaifitv-9f368.firebaseapp.com",
+        databaseURL: "https://alfaifitv-9f368-default-rtdb.firebaseio.com",
+        projectId: "alfaifitv-9f368",
+        storageBucket: "alfaifitv-9f368.appspot.com",
+        messagingSenderId: "689661718080",
+        appId: "1:689661718080:android:81e1b47d167616966f79a5"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    
+    let clapprInstance = null;
+    let currentActiveUrl = "";
+
+    database.ref('live_match').on('value', (snapshot) => {
+        const data = snapshot.val();
+        const streamSection = document.getElementById('live-stream-section');
+        const matchTitleText = document.getElementById('match-title');
+
+        // إذا كان البث مفعلاً ويحتوي على رابط
+        if (data && data.is_active && data.stream_url_1) {
+            
+            matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
+            streamSection.style.display = 'block'; 
+
+            if (currentActiveUrl !== data.stream_url_1) {
+                currentActiveUrl = data.stream_url_1;
+                startPlayer(currentActiveUrl);
             }
+
+        } else {
+            // الإيقاف التلقائي الذكي: إذا تم إلغاء التفعيل تختفي الحاوية بالكامل ويقف المشغل فوراً
+            streamSection.style.display = 'none';
+            currentActiveUrl = "";
+            stopPlayer();
         }
+    });
 
-        // الاستماع لقاعدة البيانات في الفايربيس تلقائياً
-        database.ref('live_stream_url').on('value', (snapshot) => {
-            const url = snapshot.val();
-            loadStream(url);
-        });
-
-        // دالة التنقل بين السيرفرات (تطوير مستقبلي أو لتغيير روابط الكاش)
-        function changeServer(serverNumber) {
-            // إزالة الكلاس النشط من جميع الأزرار وإضافته للزر المضغوط
-            const buttons = document.querySelectorAll('.server-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            // هنا يمكنك تخصيص روابط السيرفرات الأخرى إذا أردت، حالياً تعود للرابط الرئيسي
-            if (currentUrl) {
-                loadStream(currentUrl);
-            }
-            console.log("تم التحويل إلى سيرفر: " + serverNumber);
+    function startPlayer(url) {
+        if (clapprInstance) {
+            clapprInstance.load(url); // إذا كان المشغل موجوداً بالفعل، يغير الرابط فقط بسرعة
+        } else {
+            // بناء المشغل المستقل لأول مرة بداخل Div المخصص له
+            clapprInstance = new Clappr.Player({
+                source: url,
+                parentId: "#clappr-player",
+                width: "100%",
+                height: "100%",
+                autoPlay: true,
+                mute: false,
+                strings: { 'ar': { 'live': 'مباشر' } },
+                language: 'ar'
+            });
         }
-    </script>
+    }
+
+    function stopPlayer() {
+        if (clapprInstance) {
+            clapprInstance.stop(); // إيقاف البث فوراً وتفريغ الذاكرة المؤقتة لمنع التعليق
+        }
+    }
+</script>
 </body>
 </html>
