@@ -91,20 +91,20 @@
     <!-- استدعاء مكتبات الـ JavaScript للمشغل -->
     <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
 
-    <!-- استدعاء Firebase (تأكد من استخدام إصدار الـ Compatibility لسهولة الكود) -->
+    <!-- استدعاء Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <script>
-        // 1. إعدادات Firebase الخاصة بمشروعك (استبدلها ببياناتك)
+        // 1. إعدادات Firebase الخاصة بمشروع AlfaifiTV
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyAsb-l_tMscU_i9X68p01mU_XjFmU0wXbc",
+            authDomain: "alfaifitv-6f5b2.firebaseapp.com",
+            databaseURL: "https://alfaifitv-6f5b2-default-rtdb.firebaseio.com",
+            projectId: "alfaifitv-6f5b2",
+            storageBucket: "alfaifitv-6f5b2.appspot.com",
+            messagingSenderId: "1056492837410",
+            appId: "1:1056492837410:web:d8c5b36e8fa172b49c0c3a"
         };
 
         // تهيئة الـ Firebase
@@ -114,8 +114,8 @@
         // 2. تهيئة مشغل Video.js
         const player = videojs('live-player');
 
-        // 3. الاستماع للتغييرات في Firebase Realtime Database
-        // افترضنا أن الرابط مخزن تحت مسار "live_stream_url"
+        // 3. الاستماع للتغييرات في قاعدة البيانات
+        // قمنا بربطه مباشرة على حقل البث المباشر لديك
         const streamRef = database.ref('live_stream_url');
 
         streamRef.on('value', (snapshot) => {
@@ -127,7 +127,7 @@
                 
                 // البث متوقف: نقوم بإيقاف المشغل وإظهار شاشة التوقف
                 player.pause();
-                player.src(""); // تفريغ المصدر تماماً لحل المشكلة
+                player.src(""); // تفريغ المصدر تماماً لحل مشكلة التعليق
                 offlineScreen.style.display = 'flex'; // إظهار شاشة "البث متوقف"
                 console.log("تم إيقاف البث من لوحة التحكم.");
                 
@@ -138,11 +138,11 @@
                 
                 player.src({
                     src: streamUrl,
-                    type: 'application/x-mpegURL' // تشغيل روابط m3u8 / HLS بسلاسة وبأعلى جودة
+                    type: 'application/x-mpegURL' // لتشغيل روابط HLS / m3u8 بأعلى كفاءة وسلاسة
                 });
                 
                 player.play().catch(error => {
-                    console.log("تم تحديث الرابط بنجاح، بانتظار تفاعل المستخدم للتشغيل تلقائياً.");
+                    console.log("بانتظار تفاعل المستخدم للتشغيل تلقائياً.");
                 });
             }
         });
