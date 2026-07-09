@@ -3,100 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الفيفي تيفي - البث المباشر</title>
+    <title>AlfaifiTV - الفيفي تيفي</title>
     
-    <!-- ستايل مشغل Video.js الشبيه بالمشغلات الاحترافية -->
-    <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
-    <link href="https://unpkg.com/@videojs/themes@1.0.1/dist/city/index.css" rel="stylesheet">
+    <!-- استدعاء مشغل Clappr المتطور والذكي للبث المباشر -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 
     <style>
         body {
-            background-color: #121212;
+            background-color: #0c0c0c;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
         }
 
-        h1 {
-            color: #ffffff;
+        header {
+            margin-top: 30px;
             margin-bottom: 20px;
-            font-size: 2rem;
+            text-align: center;
         }
 
-        /* حاوية المشغل لضمان التجاوب مع الجوالات */
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        /* حاوية الفيديو والمشغل */
         .video-container {
-            width: 100%;
-            max-width: 800px;
-            position: relative;
-            background-color: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        /* تخصيص أبعاد المشغل */
-        .video-js {
-            width: 100% !important;
-            height: auto;
+            width: 90%;
+            max-width: 850px;
             aspect-ratio: 16 / 9;
+            background-color: #000000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            position: relative;
+            border: 1px solid #222;
         }
 
-        /* واجهة البث المتوقف */
+        #player {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* شاشة توقف البث الأنيقة */
         .stream-offline {
-            display: none; /* مخفي افتراضياً */
+            display: none;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #1a1a1a;
-            z-index: 10;
+            background-color: #151515;
+            z-index: 99;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #ff4d4d;
-            font-size: 1.5rem;
+            color: #ff4747;
+            font-size: 1.6rem;
             font-weight: bold;
         }
-        
+
         .stream-offline span {
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* قسم السيرفرات والأزرار التفاعلية أسفل المشغل */
+        .servers-section {
+            width: 90%;
+            max-width: 850px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .servers-title {
+            font-size: 1.1rem;
+            color: #aaaaaa;
+            margin-bottom: 12px;
+        }
+
+        .buttons-grid {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .server-btn {
+            background-color: #6A42C2; /* اللون البنفسجي الخاص بتطبيقك */
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(106, 66, 194, 0.3);
+        }
+
+        .server-btn:hover {
+            background-color: #5533A1;
+            transform: translateY(-2px);
+        }
+
+        .server-btn.active {
+            background-color: #ff4747; /* تمييز السيرفر الشغال */
+            box-shadow: 0 4px 12px rgba(255, 71, 71, 0.4);
         }
     </style>
 </head>
 <body>
 
-    <h1>الفيفي تيفي - AlfaifiTV</h1>
+    <header>
+        <h1>AlfaifiTV - الفيفي تيفي</h1>
+    </header>
 
+    <!-- حاوية المشغل وبداخلها شاشة التوقف الذكية -->
     <div class="video-container">
-        <!-- شاشة التوقف التي تظهر عند إيقاف البث -->
         <div id="offlineScreen" class="stream-offline">
             <span>📺</span>
             البث المباشر متوقف حالياً
         </div>
-
-        <!-- المشغل المستقل المدعوم بـ Video.js -->
-        <video id="live-player" class="video-js vjs-theme-city vjs-big-play-centered" controls preload="auto">
-            <p class="vjs-no-js">
-                لتشغيل هذا الفيديو، يرجى تفعيل الجافا سكربت أو التحديث لمتصفح يدعم HTML5.
-            </p>
-        </video>
+        <div id="player"></div>
     </div>
 
-    <!-- استدعاء مكتبات الـ JavaScript للمشغل -->
-    <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+    <!-- قسم السيرفرات والأزرار -->
+    <div class="servers-section">
+        <div class="servers-title">اختر سيرفر المشاهدة المناسب لسرعتك:</div>
+        <div class="buttons-grid">
+            <button class="server-btn active" onclick="changeServer(1)">سيرفر 1 (رئيسي)</button>
+            <button class="server-btn" onclick="changeServer(2)">سيرفر 2 (احتياطي)</button>
+            <button class="server-btn" onclick="changeServer(3)">سيرفر متعدد الجودات</button>
+        </div>
+    </div>
 
     <!-- استدعاء Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <script>
-        // 1. إعدادات Firebase الخاصة بمشروع AlfaifiTV
+        // إعدادات الفايربيس الخاصة بمشروعك
         const firebaseConfig = {
             apiKey: "AIzaSyAsb-l_tMscU_i9X68p01mU_XjFmU0wXbc",
             authDomain: "alfaifitv-6f5b2.firebaseapp.com",
@@ -107,45 +162,65 @@
             appId: "1:1056492837410:web:d8c5b36e8fa172b49c0c3a"
         };
 
-        // تهيئة الـ Firebase
+        // تهيئة الفايربيس
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 2. تهيئة مشغل Video.js
-        const player = videojs('live-player');
+        let clapprPlayer = null;
+        let currentUrl = "";
 
-        // 3. الاستماع للتغييرات في قاعدة البيانات
-        // قمنا بربطه مباشرة على حقل البث المباشر لديك
-        const streamRef = database.ref('live_stream_url');
-
-        streamRef.on('value', (snapshot) => {
-            const streamUrl = snapshot.val();
+        // دالة لتشغيل أو تحديث البث داخل المشغل
+        function loadStream(url) {
+            currentUrl = url;
             const offlineScreen = document.getElementById('offlineScreen');
 
-            // فحص حالة الرابط: لو كان فارغ، أو يحتوي على كلمة off أو stop
-            if (!streamUrl || streamUrl.trim() === "" || streamUrl.toLowerCase() === "off" || streamUrl.toLowerCase() === "stop") {
-                
-                // البث متوقف: نقوم بإيقاف المشغل وإظهار شاشة التوقف
-                player.pause();
-                player.src(""); // تفريغ المصدر تماماً لحل مشكلة التعليق
-                offlineScreen.style.display = 'flex'; // إظهار شاشة "البث متوقف"
-                console.log("تم إيقاف البث من لوحة التحكم.");
-                
+            // فحص كود الإيقاف الذكي (لو فارغ أو مكتوب off أو stop)
+            if (!url || url.trim() === "" || url.toLowerCase() === "off" || url.toLowerCase() === "stop") {
+                if (clapprPlayer) {
+                    clapprPlayer.stop();
+                }
+                offlineScreen.style.display = 'flex'; // إظهار شاشة البث متوقف
             } else {
+                offlineScreen.style.display = 'none'; // إخفاء شاشة التوقف
                 
-                // البث يعمل: نخفي شاشة التوقف ونشغل الرابط الجديد
-                offlineScreen.style.display = 'none';
-                
-                player.src({
-                    src: streamUrl,
-                    type: 'application/x-mpegURL' // لتشغيل روابط HLS / m3u8 بأعلى كفاءة وسلاسة
-                });
-                
-                player.play().catch(error => {
-                    console.log("بانتظار تفاعل المستخدم للتشغيل تلقائياً.");
-                });
+                if (clapprPlayer) {
+                    // إذا المشغل موجود مسبقاً، نغير الرابط فقط فوراً
+                    clapprPlayer.load(url);
+                } else {
+                    // إنشاء المشغل لأول مرة
+                    clapprPlayer = new Clappr.Player({
+                        source: url,
+                        parentId: "#player",
+                        width: "100%",
+                        height: "100%",
+                        autoPlay: true,
+                        mute: false,
+                        strings: { 'ar': { 'live': 'مباشر' } },
+                        language: 'ar'
+                    });
+                }
             }
+        }
+
+        // الاستماع لقاعدة البيانات في الفايربيس تلقائياً
+        database.ref('live_stream_url').on('value', (snapshot) => {
+            const url = snapshot.val();
+            loadStream(url);
         });
+
+        // دالة التنقل بين السيرفرات (تطوير مستقبلي أو لتغيير روابط الكاش)
+        function changeServer(serverNumber) {
+            // إزالة الكلاس النشط من جميع الأزرار وإضافته للزر المضغوط
+            const buttons = document.querySelectorAll('.server-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // هنا يمكنك تخصيص روابط السيرفرات الأخرى إذا أردت، حالياً تعود للرابط الرئيسي
+            if (currentUrl) {
+                loadStream(currentUrl);
+            }
+            console.log("تم التحويل إلى سيرفر: " + serverNumber);
+        }
     </script>
 </body>
 </html>
