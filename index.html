@@ -84,7 +84,7 @@
             padding-bottom: 10px; 
         }
         
-        /* تحديث الحاوية لتتناسب مع أبعاد مشغل Clappr الذكي */
+        /* حاوية المشغل */
         .player-container {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -97,6 +97,33 @@
         #clappr-player {
             width: 100%;
             height: 100%;
+        }
+        
+        /* تصميم قائمة المباريات المضافة من لوحة التحكم */
+        .matches-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .match-item {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid transparent;
+        }
+        .match-item:hover {
+            background-color: #444444;
+            transform: scale(1.01);
+        }
+        .match-item.active {
+            border-left: 4px solid #e74c3c;
+            background-color: #3d244c;
         }
         
         .live-status {
@@ -168,6 +195,15 @@
         <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
     </div>
 
+    <!-- قسم قائمة المباريات (يظهر ديناميكياً من لوحة التحكم) -->
+    <section id="matches-section" style="display: none;">
+        <h2>جدول المباريات المباشرة اليوم</h2>
+        <div id="matches-container" class="matches-list">
+            <!-- هنا تنزل أزرار ومباريات الفايربيس تلقائياً -->
+        </div>
+    </section>
+
+    <!-- قسم المشغل المستقل (يظهر فقط عند الضغط على مباراة) -->
     <section id="live-stream-section" style="display: none;">
         <div class="live-status">
             <span class="pulse-dot"></span>
@@ -175,7 +211,6 @@
         </div>
         <h2 id="match-title">المباراة الجارية حالياً</h2>
         
-        <!-- هنا تم استبدال الكود بـ Clappr Player المستقل لعلاج التقطيع وسرعة الاستجابة -->
         <div class="player-container">
             <div id="clappr-player"></div>
         </div>
@@ -205,7 +240,7 @@
     </footer>
 </div>
 
-<!-- استدعاء مشغل Clappr المستقل والمحمي ضد مشاكل المتصفحات -->
+<!-- استدعاء مشغل Clappr المستقل والذكي ضد التقطيع -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 
 <!-- مكتبات الفايربيس الأصلية الخاصة بك -->
@@ -230,35 +265,68 @@
     let clapprInstance = null;
     let currentActiveUrl = "";
 
-    database.ref('live_match').on('value', (snapshot) => {
-        const data = snapshot.val();
-        const streamSection = document.getElementById('live-stream-section');
-        const matchTitleText = document.getElementById('match-title');
-
-        // إذا كان البث مفعلاً ويحتوي على رابط
-        if (data && data.is_active && data.stream_url_1) {
+    // جلب قائمة المباريات بالكامل من المسار (matches) في الفايربيس
+    database.ref('matches').on('value', (snapshot) => {
+        const matchesData = snapshot.val();
+        const matchesSection = document.getElementById('matches-section');
+        const matchesContainer = document.getElementById('matches-container');
+        
+        // تفريغ الحاوية أولاً لعدم التكرار عند التحديث
+        matchesContainer.innerHTML = "";
+        
+        if (matchesData) {
+            let hasActiveMatches = false;
             
-            matchTitleText.innerText = data.title || "المباراة المباشرة الحالية";
-            streamSection.style.display = 'block'; 
-
-            if (currentActiveUrl !== data.stream_url_1) {
-                currentActiveUrl = data.stream_url_1;
-                startPlayer(currentActiveUrl);
+            // المرور على كل المباريات المضافة في لوحة التحكم
+            Object.keys(matchesData).forEach(key => {
+                const match = matchesData[key];
+                
+                // التأكد أن المباراة مفعّلة ولها رابط بث
+                if (match.is_active && match.stream_url_1) {
+                    hasActiveMatches = true;
+                    
+                    // إنشاء عنصر (بطاقة) للمباراة تلقائياً
+                    const matchItem = document.createElement('div');
+                    matchItem.className = 'match-item';
+                    matchItem.innerHTML = `
+                        <strong>${match.title || 'مباراة بث مباشر'}</strong>
+                        <span style="color: #e74c3c; font-size: 0.85rem; font-weight: bold;">اضغط للمشاهدة 📺</span>
+                    `;
+                    
+                    // حدث الضغط لتشغيل البث الخاص بهذه المباراة تحديداً
+                    matchItem.onclick = function() {
+                        // إزالة التحديد النشط من البطاقات الأخرى وتحديده على هذه البطاقة
+                        document.querySelectorAll('.match-item').forEach(el => el.classList.remove('active'));
+                        matchItem.classList.add('active');
+                        
+                        // إظهار المشغل وتشغيل الرابط
+                        document.getElementById('live-stream-section').style.display = 'block';
+                        document.getElementById('match-title').innerText = match.title;
+                        
+                        startPlayer(match.stream_url_1);
+                    };
+                    
+                    matchesContainer.appendChild(matchItem);
+                }
+            });
+            
+            if (hasActiveMatches) {
+                matchesSection.style.display = 'block';
+            } else {
+                hideAllStreamSections();
             }
-
         } else {
-            // الإيقاف التلقائي الذكي: إذا تم إلغاء التفعيل تختفي الحاوية بالكامل ويقف المشغل فوراً
-            streamSection.style.display = 'none';
-            currentActiveUrl = "";
-            stopPlayer();
+            hideAllStreamSections();
         }
     });
 
     function startPlayer(url) {
+        if (currentActiveUrl === url) return; // إذا كان نفس الرابط شغال لا تعيد بناء المشغل
+        currentActiveUrl = url;
+
         if (clapprInstance) {
-            clapprInstance.load(url); // إذا كان المشغل موجوداً بالفعل، يغير الرابط فقط بسرعة
+            clapprInstance.load(url); // تغيير الرابط بسرعة
         } else {
-            // بناء المشغل المستقل لأول مرة بداخل Div المخصص له
             clapprInstance = new Clappr.Player({
                 source: url,
                 parentId: "#clappr-player",
@@ -272,9 +340,12 @@
         }
     }
 
-    function stopPlayer() {
+    function hideAllStreamSections() {
+        document.getElementById('matches-section').style.display = 'none';
+        document.getElementById('live-stream-section').style.display = 'none';
+        currentActiveUrl = "";
         if (clapprInstance) {
-            clapprInstance.stop(); // إيقاف البث فوراً وتفريغ الذاكرة المؤقتة لمنع التعليق
+            clapprInstance.stop();
         }
     }
 </script>
