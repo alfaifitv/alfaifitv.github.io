@@ -1,631 +1,377 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <link rel="canonical" href="https://alfaifitv.github.io/"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر</title>
-    
-    <meta name="description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية. دليل شامل حول مميزات تطبيق الفيفي تيفي AlfaifiTV ومتابعة البث المباشر.">
-    <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر, مشغل مباريات">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفيفي تيفي | AlfaifiTV - الموقع الرسمي</title>
+    
+    <!-- روابط الخطوط والتنسيقات الخارجية -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #6c2ba3;
+            --secondary-color: #4a157d;
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #ffffff;
+            --text-secondary: #b3b3b3;
+        }
 
-    <!-- Open Graph / Facebook / Discord -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://alfaifitv.github.io/">
-    <meta property="og:title" content="الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر">
-    <meta property="og:description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية.">
-    <meta property="og:image" content="https://alfaifitv.github.io/icon-app.png">
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://alfaifitv.github.io/">
-    <meta name="twitter:title" content="الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر">
-    <meta name="twitter:description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية.">
-    <meta name="twitter:image" content="https://alfaifitv.github.io/icon-app.png">
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
 
-    <style>
-        :root { 
-            --primary-color: #8e44ad; 
-            --bg-color: #1a1a1a; 
-            --text-color: #ffffff; 
-            --card-bg: #262626;
-            --card-hover: #2f2f2f;
-        }
-        body { 
-            font-family: 'Segoe UI', Tahoma, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
-            margin: 0; 
-            line-height: 1.6; 
-        }
-        
-        /* هيكلة الموقع لدعم البانرات الجانبية في الشاشات الكبيرة */
-        .main-layout {
-            display: flex;
-            justify-content: center;
-            max-width: 1300px;
-            margin: auto;
-            gap: 20px;
-            padding: 10px;
-        }
-        .side-ad {
-            display: none; /* مخفي في الجوال ويظهر في الشاشات الكبيرة */
-            width: 160px;
-            margin-top: 100px;
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-        }
-        .container { 
-            flex: 1;
-            max-width: 850px; 
-            padding: 10px; 
-        }
-        header { 
-            text-align: center; 
-            padding: 30px 0 20px 0; 
-        }
-        h1 { 
-            color: var(--primary-color); 
-            margin-top: 10px;
-        }
-        .logo-img { 
-            max-width: 150px; 
-            border-radius: 15px; 
-            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
-        }
-        .btn { 
-            display: inline-block; 
-            background-color: var(--primary-color); 
-            color: white; 
-            padding: 12px 25px; 
-            text-decoration: none; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            font-size: 1.1rem; 
-            transition: 0.3s; 
-            margin-top: 10px; 
-            cursor: pointer; 
-            border: none;
-        }
-        .btn:hover { 
-            background-color: #732d91; 
-            transform: translateY(-2px);
-        }
-        section { 
-            margin: 30px 0; 
-            background: var(--card-bg); 
-            padding: 25px; 
-            border-radius: 10px; 
-            border-right: 4px solid var(--primary-color);
-        }
-        h2 { 
-            color: var(--primary-color); 
-            margin-top: 0; 
-            padding-bottom: 10px; 
-        }
-        
-        .section-title {
-            background: var(--primary-color);
-            color: #fff;
-            padding: 8px 15px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 6px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
+        .logo-container {
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
 
-        .player-placeholder {
-            text-align: center;
-            padding: 40px 20px;
-            color: #aaa;
-            font-weight: bold;
-            border: 2px dashed #444;
-            border-radius: 8px;
-            background: #111;
-        }
+        .logo-box {
+            width: 120px;
+            height: 120px;
+            background-color: var(--primary-color);
+            border-radius: 30px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 64px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(108, 43, 163, 0.3);
+        }
 
-        .player-container {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-        #clappr-player {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .server-buttons-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        .server-btn {
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 8px 18px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .server-btn:hover { background-color: #444; }
-        .server-btn.active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        /* تصميم كروت جدول المباريات */
-        .matches-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .match-card {
-            background: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            transition: 0.2s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        .match-card:hover {
-            background: var(--card-hover);
-            border-color: var(--primary-color);
-        }
-        .match-card.selected-active {
-            border: 1px solid var(--primary-color);
-            background: rgba(142, 68, 173, 0.1);
-        }
-        .team {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 38%;
-        }
-        .team.team-home { justify-content: flex-start; text-align: right; }
-        .team.team-away { justify-content: flex-end; text-align: left; }
-        .team img {
-            width: 35px;
-            height: 35px;
-            object-fit: contain;
-        }
-        .team-name {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        .match-info {
-            width: 24%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        .match-time {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #f1c40f;
-        }
-        .match-status {
-            font-size: 0.8rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-            background: #333;
-            color: #bbb;
-        }
-        .match-card.has-stream .match-status {
-            background: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
-            font-weight: bold;
-        }
-        .match-details-footer {
-            font-size: 0.8rem;
-            color: #888;
-            text-align: center;
-            margin-top: 8px;
-            border-top: 1px solid #2a2a2a;
-            padding-top: 5px;
-            width: 100%;
-        }
-        
-        .live-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: #e74c3c;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-        
-        .ads-container {
-            text-align: center;
-            margin: 15px auto;
-            max-width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            gap: 10px;
-        }
+        h1 {
+            font-size: 28px;
+            margin: 10px 0;
+        }
 
-        /* شاشات الاستجابة للبانرات المخصصة للكمبيوتر/الجوال */
-        .ad-desktop { display: block; }
-        .ad-mobile { display: none; }
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
 
-        /* تصميم شاشة حجب مانع الإعلانات */
-        #adblock-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 15, 15, 0.98);
-            z-index: 99999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .adblock-box {
-            background: #262626;
-            border: 2px solid var(--primary-color);
-            border-radius: 12px;
-            max-width: 500px;
-            width: 100%;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(142, 68, 173, 0.2);
-        }
-        .adblock-box h3 {
-            color: #e74c3c;
-            font-size: 1.6rem;
-            margin-top: 0;
-        }
-        .adblock-box p {
-            color: #ccc;
-            font-size: 1.05rem;
-            margin: 15px 0 25px 0;
-        }
+        .btn-download {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(108, 43, 163, 0.4);
+            border: 2px solid transparent;
+        }
 
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 1; }
-            70% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(0.9); opacity: 1; }
-        }
+        .btn-download:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 43, 163, 0.6);
+        }
 
-        footer { 
-            text-align: center; 
-            padding: 30px 20px; 
-            font-size: 0.9rem; 
-            color: #888; 
-            border-top: 1px solid #333;
-            margin-top: 50px;
-        }
-        
-        /* تحسينات العرض المتجاوب للشاشات الكبيرة والصغيرة */
-        @media (min-width: 1100px) {
-            .side-ad { display: block; }
-        }
-        @media (max-width: 768px) {
-            .ad-desktop { display: none; }
-            .ad-mobile { display: block; }
-        }
-        @media (max-width: 600px) {
-            .match-card { padding: 12px 10px; }
-            .team-name { font-size: 0.85rem; }
-            .team img { width: 30px; height: 30px; }
-            .match-time { font-size: 0.95rem; }
-            .match-status { font-size: 0.75rem; }
-        }
-    </style>
+        /* مساحات الإعلانات */
+        .ad-zone {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90px;
+        }
+
+        .ad-desktop { display: block; }
+        .ad-mobile { display: none; }
+
+        @media (max-width: 768px) {
+            .ad-desktop { display: none; }
+            .ad-mobile { display: block; }
+        }
+
+        /* جدول المباريات */
+        .matches-section {
+            background-color: var(--surface-color);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .matches-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .matches-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .match-card {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .match-card:hover {
+            background-color: rgba(255,255,255,0.08);
+        }
+
+        .team {
+            font-weight: bold;
+            flex: 1;
+        }
+        .team.right { text-align: right; }
+        .team.left { text-align: left; }
+
+        .match-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 100px;
+        }
+
+        .match-time {
+            background-color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .match-status {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* شاشة حجب مانع الإعلانات */
+        #adblock-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(18, 18, 18, 0.98);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .adblock-box {
+            background-color: var(--surface-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .adblock-icon {
+            font-size: 50px;
+            color: #ff3333;
+            margin-bottom: 20px;
+        }
+
+        .adblock-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .adblock-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .btn-refresh {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-refresh:hover {
+            background-color: #218838;
+        }
+    </style>
+
+    <!-- تفعيل مكتبة سكريبتات أد ستيريا الفوقية إن وجدت -->
 </head>
 <body>
 
-<!-- شاشة حظر المحتوى لـ AdBlock -->
-<div id="adblock-overlay">
-    <div class="adblock-box">
-        <h3>تم رصد مانع إعلانات نشط! 🚫</h3>
-        <p>عزيزي المتابع، موقع الفيفي تيفي يقدم البث المباشر مجاناً بدون اشتراكات، واستمرارنا يعتمد كلياً على الإعلانات المقترحة. يرجى إيقاف مانع الإعلانات (Ad Blocker) ثم أعد تحميل الصفحة للاستمتاع بالمشاهدة فوراً.</p>
-        <button class="btn" onclick="window.location.reload();">لقد قمت بإيقافه، أعد تحميل الصفحة 🔄</button>
-    </div>
-</div>
+    <div class="container">
+        <!-- شعار الموقع -->
+        <div class="logo-container">
+            <div class="logo-box">الف</div>
+        </div>
 
-<div class="main-layout">
-    
-    <!-- البانر الجانبي الأيسر للشاشات الكبيرة (160x300) -->
-    <div class="side-ad">
-        <script>
-            atOptions = { 'key' : 'fa05532cd68741ab5d2410dd1c6cdd9b', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
-        </script>
-        <script src="https://www.highperformanceformat.com/fa05532cd68741ab5d2410dd1c6cdd9b/invoke.js"></script>
-    </div>
+        <h1>الفيفي تيفي - AlfaifiTV</h1>
+        <p class="subtitle">تجربة البث الرياضي الأكثر استقراراً للأندرويد والموقع الإلكتروني</p>
 
-    <div class="container">
-        <header>
-            <img src="icon-app.png" alt="شعار الفيفي تيفي" class="logo-img">
-            <h1>الفيفي تيفي - AlfaifiTV</h1>
-            <p>تجربة البث الرياضي الأكثر استقراراً للأندرويد والموقع الإلكتروني</p>
-            <a href="https://www.mediafire.com/file/s1da4kbani2spm2/AlfaifiTV.0.6.apk/file" target="_blank" class="btn">تحميل التطبيق AlfaifiTV.0.6</a>
-        </header>
+        <!-- زر تحميل التطبيق -->
+        <a href="https://github.com/alfaifitv/alfaifitv.github.io/releases/download/v0.0.6/AlfaifiTV.v0.0.6.apk" class="btn-download">
+            تحميل التطبيق AlfaifiTV.v0.0.6
+        </a>
 
-        <!-- منطقة الإعلانات العلوية المزدوجة (تتحول حسب الشاشة تلقائياً) -->
-        <div class="ads-container" id="ad-banner-top">
-            <!-- يظهر للكمبيوتر (728x90) -->
-            <div class="ad-desktop">
-                <script>
-                    atOptions = { 'key' : '040803f376910b69b03b93e2a3f1a4ea', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/040803f376910b69b03b93e2a3f1a4ea/invoke.js"></script>
-            </div>
-            <!-- يظهر للجوال (468x60) -->
-            <div class="ad-mobile">
-                <script>
-                    atOptions = { 'key' : '8060120df504a76b8f6e2838214bd2a1', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
-            </div>
-        </div>
+        <!-- 📌 مساحة إعلان الكمبيوتر Desktop Banner (728x90) -->
+        <div class="ad-zone ad-desktop">
+            <!-- ضع كود بانر الـ 728x90 الخاص بـ Adsterra هنا -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '30178063',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/30178063/invoke.js"></script>
+        </div>
 
-        <!-- قسم جدول مباريات اليوم -->
-        <section id="schedule-section">
-            <div class="section-title">جدول مباريات اليوم</div>
-            <div class="matches-list" id="matches-container">
-                <p style="text-align: center; color: #888;">جاري تحميل قائمة المباريات من السيرفر...</p>
-            </div>
-        </section>
+        <!-- 📌 مساحة إعلان الجوال Mobile Banner (320x50) -->
+        <div class="ad-zone ad-mobile">
+            <!-- ضع كود بانر الـ 320x50 الخاص بـ Adsterra هنا -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '30146040',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/30146040/invoke.js"></script>
+        </div>
 
-        <!-- قسم مشغل الفيديو والبث المباشر -->
-        <section id="live-stream-section">
-            <div id="player-area-content">
-                <div class="player-placeholder">📺 يرجى اختيار مباراة من جدول المباريات بالأعلى لبدء البث المباشر هنا</div>
-            </div>
-        </section>
+        <!-- قسم جدول المباريات -->
+        <div class="matches-section">
+            <div class="matches-title">📅 جدول مباريات اليوم</div>
+            <div id="matches-list" class="matches-container">
+                <p style="color: var(--text-secondary);">جاري تحميل قائمة المباريات من السيرفر...</p>
+            </div>
+        </div>
+    </div>
 
-        <!-- قسم إعلانات أد ستيريا المخصصة لأسفل المشغل والجدول -->
-        <div class="ads-container">
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                <!-- بانر مربع (300x250) -->
-                <script>
-                    atOptions = { 'key' : 'c61bf465bce0c873a593640cafc3462b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/c61bf465bce0c873a593640cafc3462b/invoke.js"></script>
+    <!-- 🚫 واجهة منبثقة عند كشف مانع الإعلانات -->
+    <div id="adblock-overlay">
+        <div class="adblock-box">
+            <div class="adblock-icon">🚫</div>
+            <div class="adblock-title">تم رصد مانع إعلانات نشط!</div>
+            <div class="adblock-text">
+                عزيزي المتابع، موقع الفيفي تيفي يقدم البث المباشر مجاناً بدون اشتراكات، واستمرارنا يعتمد كلياً على الإعلانات المقترحة. يرجى إيقاف مانع الإعلانات (Ad Blocker) ثم أعد تحميل الصفحة للاستمتاع بالمشاهدة فوراً.
+            </div>
+            <button class="btn-refresh" onclick="window.location.reload();">لقد قمت بإيقافه، أعد تحميل الصفحة 🔄</button>
+        </div>
+    </div>
 
-                <!-- بانر صغير ذكي (320x50) -->
-                <script>
-                    atOptions = { 'key' : '627554bea89630e9fc4f71e90efb118e', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/627554bea89630e9fc4f71e90efb118e/invoke.js"></script>
-            </div>
-        </div>
+    <!-- تهيئة سكربت Firebase وجلب البيانات وبدء فحص الـ AdBlock ذكياً -->
+    <script type="module">
+        // استيراد حزم الـ Firebase المطلوبة من الـ CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        <section>
-            <h2>ما هو تطبيق الفيفي تيفي (AlfaifiTV)؟</h2>
-            <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة.</p>
-        </section>
+        // إعدادات الـ Firebase الخاصة بمشروعك (تأكد من مطابقتها لبياناتك)
+        const firebaseConfig = {
+            databaseURL: "https://alfaifitv-default-rtdb.firebaseio.com"
+        };
 
-        <!-- كود الـ Native Banner الإعلاني المطور الذكي من أد ستيريا أسفل المحتوى الرئيسي -->
-        <div class="ads-container">
-            <script async="async" data-cfasync="false" src="https://pl30278567.effectivecpmnetwork.com/79834f057d1c9113d20e1ef2bb6ff09a/invoke.js"></script>
-            <div id="container-79834f057d1c9113d20e1ef2bb6ff09a"></div>
-        </div>
+        // بدء تهيئة التطبيق
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-        <footer>
-            <p>© 2026 AlfaifiTV - الموقع الرسمي</p>
-        </footer>
-    </div>
+        // دالة الاتصال بقاعدة البيانات وجلب جدول المباريات
+        function initFirebaseListening() {
+            const matchesRef = ref(database, 'matches');
+            onValue(matchesRef, (snapshot) => {
+                const data = snapshot.val();
+                const container = document.getElementById('matches-list');
+                container.innerHTML = ''; // تنظيف المحتوى القديم
 
-    <!-- البانر الجانبي الأيمن الطويل جداً للشاشات الكبيرة (160x600) -->
-    <div class="side-ad">
-        <script>
-            atOptions = { 'key' : 'a40397ed03d1170c438bf7c4680c3dec', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-        </script>
-        <script src="https://www.highperformanceformat.com/a40397ed03d1170c438bf7c4680c3dec/invoke.js"></script>
-    </div>
-</div>
+                if (!data) {
+                    container.innerHTML = '<p style="color: var(--text-secondary);">لا توجد مباريات مجدولة لليوم.</p>';
+                    return;
+                }
 
-<!-- مشغل Clappr والفايربيس الأساسي -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+                // تحويل الكائنات إلى مصفوفة وبناء كروت المباريات
+                Object.keys(data).forEach(key => {
+                    const match = data[key];
+                    const matchCard = document.createElement('div');
+                    matchCard.className = 'match-card';
+                    
+                    matchCard.innerHTML = `
+                        <div class="team right">${match.teamHome || 'الفريق المستضيف'}</div>
+                        <div class="match-info">
+                            <div class="match-time">${match.time || '--:--'}</div>
+                            <div class="match-status">${match.status || 'لم تبدأ'}</div>
+                        </div>
+                        <div class="team left">${match.teamAway || 'الفريق الضيف'}</div>
+                    `;
+                    container.appendChild(matchCard);
+                });
+            });
+        }
 
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyAngv8D7jXNFWrr0yS8fW51_3leSoot88w",
-        authDomain: "alfaifitv-9f368.firebaseapp.com",
-        databaseURL: "https://alfaifitv-9f368-default-rtdb.firebaseio.com",
-        projectId: "alfaifitv-9f368",
-        storageBucket: "alfaifitv-9f368.appspot.com",
-        messagingSenderId: "689661718080",
-        appId: "1:689661718080:android:81e1b47d167616966f79a5"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    
-    let clapprInstance = null; 
-    let selectedMatchKey = null; 
-
-    // 🛑 فحص مانع الإعلانات 🛑
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            const adContainer = document.querySelector('.ad-desktop iframe') || document.querySelector('.ad-mobile iframe');
-            
-            if (!adContainer || adContainer.offsetHeight === 0) {
-                document.getElementById('adblock-overlay').style.display = 'flex';
-                return;
-            } else {
-                initFirebaseListening();
-            }
-        }, 1500);
-    });
-
-    function initFirebaseListening() {
-        database.ref('matches').on('value', (snapshot) => {
-            const matchesContainer = document.getElementById('matches-container');
-            matchesContainer.innerHTML = '';
-            const data = snapshot.val();
-
-            if (!data) {
-                matchesContainer.innerHTML = '<p style="text-align: center; color: #888;">لا توجد مباريات مضافة حالياً.</p>';
-                clearPlayer(); 
-                selectedMatchKey = null;
-                return;
-            }
-
-            if (selectedMatchKey) {
-                const currentActiveMatch = data[selectedMatchKey];
-                const stillHasStream = currentActiveMatch && (currentActiveMatch.stream_url_1 || currentActiveMatch.stream_url_2 || currentActiveMatch.stream_url_3);
-                
-                if (!stillHasStream) {
-                    clearPlayer();
-                    selectedMatchKey = null;
-                }
-            }
-
-            Object.keys(data).forEach((key) => {
-                const match = data[key];
-                if (!match.team_home) return; 
-
-                const hasStream = (match.stream_url_1 || match.stream_url_2 || match.stream_url_3);
-                const isSelected = (key === selectedMatchKey);
-
-                const card = document.createElement('div');
-                card.className = `match-card ${hasStream ? 'has-stream' : ''} ${isSelected ? 'selected-active' : ''}`;
-                
-                card.innerHTML = `
-                    <div style="display:flex; flex-direction:column; width:100%;">
-                        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                            <div class="team team-home">
-                                <span class="team-name">${match.team_home}</span>
-                                <img src="${match.team_home_logo || 'icon-app.png'}" alt="logo">
-                            </div>
-                            
-                            <div class="match-info">
-                                <span class="match-time">${match.score ? match.score : (match.time || '--:--')}</span>
-                                <span class="match-status">${hasStream ? 'اضغط للمشاهدة' : (match.status || 'لم تبدأ')}</span>
-                            </div>
-                            
-                            <div class="team team-away">
-                                <img src="${match.team_away_logo || 'icon-app.png'}" alt="logo">
-                                <span class="team-name">${match.team_away}</span>
-                            </div>
-                        </div>
-                        <div class="match-details-footer">
-                            🏆 ${match.group || 'بطولة رياضية'} ${match.day ? ' | 📅 ' + match.day : ''}
-                        </div>
-                    </div>
-                `;
-
-                card.onclick = function() {
-                    if (hasStream) {
-                        selectedMatchKey = key;
-                        loadMatchPlayer(match);
-                        
-                        document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected-active'));
-                        card.classList.add('selected-active');
-                        
-                        document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        alert("هذه المباراة لا تحتوي على بث مباشر حالياً.");
-                    }
-                };
-
-                matchesContainer.appendChild(card);
-            });
-        });
-    }
-
-    function clearPlayer() {
-        const playerArea = document.getElementById('player-area-content');
-        playerArea.innerHTML = '<div class="player-placeholder">📺 تم إنهاء البث أو يرجى اختيار مباراة من الجدول.</div>';
-        if (clapprInstance) {
-            clapprInstance.destroy();
-            clapprInstance = null;
-        }
-    }
-
-    function loadMatchPlayer(match) {
-        const playerArea = document.getElementById('player-area-content');
-        
-        playerArea.innerHTML = `
-            <div class="live-status-badge">
-                <span class="pulse-dot"></span>
-                <span>بث مباشر نشط</span>
-            </div>
-            <h2>${match.team_home} vs ${match.team_away}</h2>
-            <div class="player-container">
-                <div id="clappr-player"></div>
-            </div>
-            <div class="server-buttons-container" id="servers-wrapper"></div>
-        `;
-
-        const defaultUrl = match.stream_url_1 || match.stream_url_2 || match.stream_url_3;
-        
-        const serversWrapper = document.getElementById('servers-wrapper');
-        if (match.stream_url_1) createServerButton("سيرفر 1", match.stream_url_1, defaultUrl === match.stream_url_1, serversWrapper);
-        if (match.stream_url_2) createServerButton("سيرفر 2", match.stream_url_2, defaultUrl === match.stream_url_2, serversWrapper);
-        if (match.stream_url_3) createServerButton("سيرفر 3", match.stream_url_3, defaultUrl === match.stream_url_3, serversWrapper);
-
-        startPlayer(defaultUrl);
-    }
-
-    function createServerButton(text, url, isActive, container) {
-        const btn = document.createElement('button');
-        btn.className = `server-btn ${isActive ? 'active' : ''}`;
-        btn.innerText = text;
-        btn.onclick = function() {
-            const allButtons = container.querySelectorAll('.server-btn');
-            allButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            startPlayer(url);
-        };
-        container.appendChild(btn);
-    }
-
-    function startPlayer(url) {
-        if (clapprInstance) {
-            clapprInstance.load(url);
-        } else {
-            clapprInstance = new Clappr.Player({
-                source: url,
-                parentId: "#clappr-player",
-                width: "100%",
-                height: "100%",
-                autoPlay: true,
-                mute: false,
-                strings: { 'ar': { 'live': 'مباشر' } },
-                language: 'ar'
-            });
-        }
-    }
-</script>
+        // 🛑 فحص مانع الإعلانات الذكي والمتوافق مع الجوال والكمبيوتر 🛑
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                let adContainer;
+                
+                // إذا كانت الشاشة جوال (أقل من أو يساوي 768 بكسل) افحص بنر الجوال فقط
+                if (window.innerWidth <= 768) {
+                    adContainer = document.querySelector('.ad-mobile iframe');
+                } else {
+                    // إذا كانت الشاشة كمبيوتر افحص بنر الكمبيوتر فقط
+                    adContainer = document.querySelector('.ad-desktop iframe');
+                }
+                
+                // التحقق الفعلي من الحجب (إذا كان الـ iframe غير موجود أو طوله يساوي صفر)
+                if (!adContainer || adContainer.offsetHeight === 0) {
+                    document.getElementById('adblock-overlay').style.display = 'flex';
+                    return;
+                } else {
+                    // إذا كانت الإعلانات سليمة وتعمل، ابدأ بجلب مباريات الفايربيس
+                    initFirebaseListening();
+                }
+            }, 1500); // مهلة ثانية ونصف للتأكد من اكتمال تحميل الإعلانات بالكامل
+        });
+    </script>
 </body>
 </html>
