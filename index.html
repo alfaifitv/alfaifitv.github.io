@@ -134,10 +134,12 @@
             overflow: hidden;
             margin-top: 15px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            position: relative;
         }
-        #clappr-player {
+        #clappr-player, .iframe-player {
             width: 100%;
             height: 100%;
+            border: none;
         }
         
         .server-buttons-container {
@@ -566,6 +568,10 @@
     function clearPlayer() {
         const playerArea = document.getElementById('player-area-content');
         playerArea.innerHTML = '<div class="player-placeholder">📺 تم إنهاء البث أو يرجى اختيار مباراة من الجدول.</div>';
+        destroyClappr();
+    }
+
+    function destroyClappr() {
         if (clapprInstance) {
             clapprInstance.destroy();
             clapprInstance = null;
@@ -581,8 +587,8 @@
                 <span>بث مباشر نشط</span>
             </div>
             <h2>${match.team_home} vs ${match.team_away}</h2>
-            <div class="player-container">
-                <div id="clappr-player"></div>
+            <div class="player-container" id="player-holder">
+                <!-- هنا سيتم بناء المشغل ذكياً (إما Clappr أو iframe خارجي) -->
             </div>
             <div class="server-buttons-container" id="servers-wrapper"></div>
         `;
@@ -594,7 +600,7 @@
         if (match.stream_url_2) createServerButton("سيرفر 2", match.stream_url_2, defaultUrl === match.stream_url_2, serversWrapper);
         if (match.stream_url_3) createServerButton("سيرفر 3", match.stream_url_3, defaultUrl === match.stream_url_3, serversWrapper);
 
-        startPlayer(defaultUrl);
+        handleRoutePlayer(defaultUrl);
     }
 
     function createServerButton(text, url, isActive, container) {
@@ -605,12 +611,36 @@
             const allButtons = container.querySelectorAll('.server-btn');
             allButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            startPlayer(url);
+            handleRoutePlayer(url);
         };
         container.appendChild(btn);
     }
 
-    function startPlayer(url) {
+    // الدالة الذكية لتوجيه البث حسب نوع الرابط (M3U8 أو صفحة ويب خارجية)
+    function handleRoutePlayer(url) {
+        const playerHolder = document.getElementById('player-holder');
+        
+        // فحص ما إذا كان الرابط هو رابط بث عادي ينتهي بـ m3u8 أو يحتوي على كلمة stream مباشر
+        const isDirectStream = url.includes('.m3u8') || url.includes('.mp4');
+
+        if (isDirectStream) {
+            // تنظيف أي iframe خارجي وبناء ديف الـ Clappr
+            playerHolder.innerHTML = '<div id="clappr-player"></div>';
+            startClappr(url);
+        } else {
+            // إذا كان رابط خارجي من يلا لايف أو غيره، نقوم بتدمير الـ Clappr وعرضه داخل iframe محمي ومتجاوب
+            destroyClappr();
+            playerHolder.innerHTML = `
+                <iframe src="${url}" 
+                        class="iframe-player" 
+                        allowfullscreen="true" 
+                        scrolling="no" 
+                        allow="autoplay; encrypted-media">
+                </iframe>`;
+        }
+    }
+
+    function startClappr(url) {
         if (clapprInstance) {
             clapprInstance.load(url);
         } else {
