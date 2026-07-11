@@ -358,6 +358,10 @@
 <div class="main-layout">
     
     <div class="side-ad">
+        <script>
+            atOptions = { 'key' : 'fa05532cd68741ab5d2410dd1c6cdd9b', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
+        </script>
+        <script src="https://www.highperformanceformat.com/fa05532cd68741ab5d2410dd1c6cdd9b/invoke.js"></script>
     </div>
 
     <div class="container">
@@ -370,8 +374,16 @@
 
         <div class="ads-container" id="ad-banner-top">
             <div class="ad-desktop">
+                <script>
+                    atOptions = { 'key' : '040803f376910b69b03b93e2a3f1a4ea', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/040803f376910b69b03b93e2a3f1a4ea/invoke.js"></script>
             </div>
             <div class="ad-mobile">
+                <script>
+                    atOptions = { 'key' : '8060120df504a76b8f6e2838214bd2a1', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
             </div>
         </div>
 
@@ -390,7 +402,16 @@
 
         <div class="ads-container">
             <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                </div>
+                <script>
+                    atOptions = { 'key' : 'c61bf465bce0c873a593640cafc3462b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/c61bf465bce0c873a593640cafc3462b/invoke.js"></script>
+
+                <script>
+                    atOptions = { 'key' : '627554bea89630e9fc4f71e90efb118e', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/627554bea89630e9fc4f71e90efb118e/invoke.js"></script>
+            </div>
         </div>
 
         <section>
@@ -399,6 +420,8 @@
         </section>
 
         <div class="ads-container">
+            <script async="async" data-cfasync="false" src="https://pl30278567.effectivecpmnetwork.com/79834f057d1c9113d20e1ef2bb6ff09a/invoke.js"></script>
+            <div id="container-79834f057d1c9113d20e1ef2bb6ff09a"></div>
         </div>
 
         <footer>
@@ -407,6 +430,10 @@
     </div>
 
     <div class="side-ad">
+        <script>
+            atOptions = { 'key' : 'a40397ed03d1170c438bf7c4680c3dec', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
+        </script>
+        <script src="https://www.highperformanceformat.com/a40397ed03d1170c438bf7c4680c3dec/invoke.js"></script>
     </div>
 </div>
 
@@ -431,9 +458,27 @@
     let clapprInstance = null; 
     let selectedMatchKey = null; 
 
-    // 🛑 تشغيل الموقع مباشرة بدون تعليق بسبب مانع الإعلانات 🛑
+    // 🛑 تشغيل الموقع مباشرة، ثم التحقق من مانع الإعلانات بطريقة ذكية 🛑
     window.addEventListener('load', function() {
-        initFirebaseListening();
+        initFirebaseListening(); // نشغل الفايربيس والمباريات فوراً عشان الموقع ما يعلق
+
+        setTimeout(function() {
+            // نبحث عن أي إعلان شغال، سواء موبايل أو كمبيوتر
+            let adLoaded = false;
+            const iframes = document.querySelectorAll('.ad-desktop iframe, .ad-mobile iframe');
+            
+            for (let i = 0; i < iframes.length; i++) {
+                // نتأكد إن الإعلان يخص الشاشة الحالية (مو مخفي بالـ CSS) وعنده ارتفاع
+                if (window.getComputedStyle(iframes[i].parentElement).display !== 'none' && iframes[i].offsetHeight > 0) {
+                    adLoaded = true;
+                    break;
+                }
+            }
+
+            if (!adLoaded) {
+                document.getElementById('adblock-overlay').style.display = 'flex';
+            }
+        }, 2500); // نعطيه ثانيتين ونص يحمل الإعلانات عشان ما يظلم اللي نتهم ضعيف
     });
 
     function initFirebaseListening() {
