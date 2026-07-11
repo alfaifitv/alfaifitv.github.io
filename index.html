@@ -9,19 +9,21 @@
     <meta name="description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية. دليل شامل حول مميزات تطبيق الفيفي تيفي AlfaifiTV ومتابعة البث المباشر.">
     <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر, مشغل مباريات">
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://alfaifitv.github.io/">
-    <meta property="og:title" content="الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر">
-    <meta property="og:description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية.">
-    <meta property="og:image" content="https://alfaifitv.github.io/icon-app.png">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://alfaifitv.github.io/">
-    <meta name="twitter:title" content="الفيفي تيفي AlfaifiTV | الموقع الرسمي لتحميل التطبيق والبث المباشر">
-    <meta name="twitter:description" content="تحميل تطبيق الفيفي تيفي AlfaifiTV - أفضل تطبيق لمتابعة المباريات والأحداث الرياضية المباشرة بجودة عالية.">
-    <meta name="twitter:image" content="https://alfaifitv.github.io/icon-app.png">
-
     <style>
+        /* كود كاشف مانع الإعلانات */
+        #adblock-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999999;
+            color: #fff;
+            text-align: center;
+            padding-top: 20%;
+            font-family: sans-serif;
+        }
+        #adblock-overlay h2 { color: #e74c3c; }
+
         :root { 
             --primary-color: #8e44ad; 
             --bg-color: #1a1a1a; 
@@ -229,15 +231,6 @@
             color: #2ecc71;
             font-weight: bold;
         }
-        .match-details-footer {
-            font-size: 0.8rem;
-            color: #888;
-            text-align: center;
-            margin-top: 8px;
-            border-top: 1px solid #2a2a2a;
-            padding-top: 5px;
-            width: 100%;
-        }
         
         .live-status-badge {
             display: inline-flex;
@@ -293,6 +286,13 @@
 </head>
 <body>
 
+<!-- رسالة حجب الإعلانات -->
+<div id="adblock-overlay">
+    <h2>⚠️ تم اكتشاف مانع للإعلانات</h2>
+    <p>عذراً، لا يمكن مشاهدة البث إلا بإيقاف مانع الإعلانات.</p>
+    <p>يرجى إيقاف الإضافة وتحديث الصفحة.</p>
+</div>
+
 <div class="main-layout">
     <div class="side-ad">
         <script>atOptions = {'key' : 'fa05532cd68741ab5d2410dd1c6cdd9b', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {}};</script>
@@ -335,22 +335,12 @@
         <div class="ads-container">
              <script>atOptions = {'key' : 'c61bf465bce0c873a593640cafc3462b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {}};</script>
              <script src="https://www.highperformanceformat.com/c61bf465bce0c873a593640cafc3462b/invoke.js"></script>
-             
-             <script>atOptions = {'key' : '627554bea89630e9fc4f71e90efb118e', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {}};</script>
-             <script src="https://www.highperformanceformat.com/627554bea89630e9fc4f71e90efb118e/invoke.js"></script>
         </div>
-
-        <section>
-            <h2>ما هو تطبيق الفيفي تيفي (AlfaifiTV)؟</h2>
-            <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة.</p>
-        </section>
 
         <footer>
             <p>© 2026 AlfaifiTV - الموقع الرسمي</p>
         </footer>
     </div>
-
-    <div class="side-ad"></div>
 </div>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
@@ -358,6 +348,23 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
+    // كود كشف مانع الإعلانات (مطور ومخفي)
+    (function() {
+        var detect = document.createElement('div');
+        detect.innerHTML = '&nbsp;';
+        detect.className = 'adsbox';
+        detect.style.position = 'absolute';
+        detect.style.top = '-9999px';
+        document.body.appendChild(detect);
+        
+        window.setTimeout(function() {
+            if (detect.offsetHeight == 0) {
+                document.getElementById('adblock-overlay').style.display = 'block';
+            }
+            detect.remove();
+        }, 800);
+    })();
+
     const firebaseConfig = {
         apiKey: "AIzaSyAngv8D7jXNFWrr0yS8fW51_3leSoot88w",
         authDomain: "alfaifitv-9f368.firebaseapp.com",
