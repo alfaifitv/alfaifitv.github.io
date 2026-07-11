@@ -10,19 +10,19 @@
     <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر, مشغل مباريات">
 
     <style>
-        /* كود كاشف مانع الإعلانات */
-        #adblock-overlay {
+        /* كود كاشف مانع الإعلانات (مخفي بـ ID عشوائي) */
+        #blocking-message-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 9999999;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 99999999;
             color: #fff;
             text-align: center;
             padding-top: 20%;
             font-family: sans-serif;
         }
-        #adblock-overlay h2 { color: #e74c3c; }
+        #blocking-message-overlay h2 { color: #e74c3c; }
 
         :root { 
             --primary-color: #8e44ad; 
@@ -286,10 +286,10 @@
 </head>
 <body>
 
-<!-- رسالة حجب الإعلانات -->
-<div id="adblock-overlay">
+<!-- رسالة الحجب -->
+<div id="blocking-message-overlay">
     <h2>⚠️ تم اكتشاف مانع للإعلانات</h2>
-    <p>عذراً، لا يمكن مشاهدة البث إلا بإيقاف مانع الإعلانات.</p>
+    <p>عذراً، لا يمكن مشاهدة البث إلا بإيقاف مانع الإعلانات (AdBlock).</p>
     <p>يرجى إيقاف الإضافة وتحديث الصفحة.</p>
 </div>
 
@@ -348,22 +348,26 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // كود كشف مانع الإعلانات (مطور ومخفي)
-    (function() {
-        var detect = document.createElement('div');
-        detect.innerHTML = '&nbsp;';
-        detect.className = 'adsbox';
-        detect.style.position = 'absolute';
-        detect.style.top = '-9999px';
-        document.body.appendChild(detect);
-        
-        window.setTimeout(function() {
-            if (detect.offsetHeight == 0) {
-                document.getElementById('adblock-overlay').style.display = 'block';
-            }
-            detect.remove();
-        }, 800);
-    })();
+    // كاشف عشوائي لا تستطيع الإضافات التنبؤ به
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            var randomID = "test-" + Math.random().toString(36).substring(7);
+            var detect = document.createElement('div');
+            detect.id = randomID;
+            detect.style.height = '1px';
+            detect.style.width = '1px';
+            detect.style.position = 'absolute';
+            detect.style.top = '-9999px';
+            document.body.appendChild(detect);
+            
+            setTimeout(function() {
+                if (detect.offsetHeight == 0 || detect.style.display == 'none') {
+                    document.getElementById('blocking-message-overlay').style.display = 'block';
+                }
+                detect.remove();
+            }, 1000);
+        }, 1500);
+    });
 
     const firebaseConfig = {
         apiKey: "AIzaSyAngv8D7jXNFWrr0yS8fW51_3leSoot88w",
