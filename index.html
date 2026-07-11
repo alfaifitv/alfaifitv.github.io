@@ -10,8 +10,8 @@
     <meta name="keywords" content="الفيفي تيفي, AlfaifiTV, alfaifitv, ALFAIFITV, تطبيق الفيفي تيفي, تحميل AlfaifiTV, مباريات, بث مباشر, مشغل مباريات">
 
     <style>
-        /* كود كاشف مانع الإعلانات (مخفي بـ ID عشوائي) */
-        #blocking-message-overlay {
+        /* رسالة الحجب - تم تغيير المعرف لاسم غامض لتجنب الحجب التلقائي */
+        #site-msg-container {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -22,7 +22,7 @@
             padding-top: 20%;
             font-family: sans-serif;
         }
-        #blocking-message-overlay h2 { color: #e74c3c; }
+        #site-msg-container h2 { color: #e74c3c; }
 
         :root { 
             --primary-color: #8e44ad; 
@@ -287,10 +287,9 @@
 <body>
 
 <!-- رسالة الحجب -->
-<div id="blocking-message-overlay">
-    <h2>⚠️ تم اكتشاف مانع للإعلانات</h2>
-    <p>عذراً، لا يمكن مشاهدة البث إلا بإيقاف مانع الإعلانات (AdBlock).</p>
-    <p>يرجى إيقاف الإضافة وتحديث الصفحة.</p>
+<div id="site-msg-container">
+    <h2>⚠️ تنبيه: يرجى إيقاف مانع الإعلانات</h2>
+    <p>للاستمرار في استخدام الموقع، يرجى تعطيل أي إضافات تمنع الإعلانات.</p>
 </div>
 
 <div class="main-layout">
@@ -348,25 +347,23 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // كاشف عشوائي لا تستطيع الإضافات التنبؤ به
+    // كود الكشف القسري
     window.addEventListener('load', function() {
         setTimeout(function() {
-            var randomID = "test-" + Math.random().toString(36).substring(7);
-            var detect = document.createElement('div');
-            detect.id = randomID;
-            detect.style.height = '1px';
-            detect.style.width = '1px';
-            detect.style.position = 'absolute';
-            detect.style.top = '-9999px';
-            document.body.appendChild(detect);
-            
+            // كلاس غير متوقع
+            var tester = document.createElement('div');
+            tester.className = 'test-check-xyz'; 
+            tester.style.height = '1px';
+            document.body.appendChild(tester);
+
             setTimeout(function() {
-                if (detect.offsetHeight == 0 || detect.style.display == 'none') {
-                    document.getElementById('blocking-message-overlay').style.display = 'block';
+                if (tester.offsetHeight === 0) {
+                    var msg = document.getElementById('site-msg-container');
+                    msg.style.setProperty('display', 'block', 'important');
                 }
-                detect.remove();
-            }, 1000);
-        }, 1500);
+                tester.remove();
+            }, 500);
+        }, 1000);
     });
 
     const firebaseConfig = {
