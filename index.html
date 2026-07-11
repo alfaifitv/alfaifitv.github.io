@@ -37,7 +37,6 @@
             line-height: 1.6; 
         }
         
-        /* هيكلة الموقع لدعم البانرات الجانبية في الشاشات الكبيرة */
         .main-layout {
             display: flex;
             justify-content: center;
@@ -45,14 +44,6 @@
             margin: auto;
             gap: 20px;
             padding: 10px;
-        }
-        .side-ad {
-            display: none; /* مخفي في الجوال ويظهر في الشاشات الكبيرة */
-            width: 160px;
-            margin-top: 100px;
-            position: sticky;
-            top: 20px;
-            height: fit-content;
         }
         .container { 
             flex: 1;
@@ -162,7 +153,6 @@
             border-color: var(--primary-color);
         }
         
-        /* تصميم كروت جدول المباريات */
         .matches-list {
             display: flex;
             flex-direction: column;
@@ -260,58 +250,6 @@
             border-radius: 50%;
             animation: pulse 1.5s infinite;
         }
-        
-        .ads-container {
-            text-align: center;
-            margin: 15px auto;
-            max-width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            gap: 10px;
-        }
-
-        /* شاشات الاستجابة للبانرات المخصصة للكمبيوتر/الجوال */
-        .ad-desktop { display: block; }
-        .ad-mobile { display: none; }
-
-        /* تصميم شاشة حجب مانع الإعلانات */
-        #adblock-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 15, 15, 0.98);
-            z-index: 99999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .adblock-box {
-            background: #262626;
-            border: 2px solid var(--primary-color);
-            border-radius: 12px;
-            max-width: 500px;
-            width: 100%;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(142, 68, 173, 0.2);
-        }
-        .adblock-box h3 {
-            color: #e74c3c;
-            font-size: 1.6rem;
-            margin-top: 0;
-        }
-        .adblock-box p {
-            color: #ccc;
-            font-size: 1.05rem;
-            margin: 15px 0 25px 0;
-        }
 
         @keyframes pulse {
             0% { transform: scale(0.9); opacity: 1; }
@@ -328,14 +266,6 @@
             margin-top: 50px;
         }
         
-        /* تحسينات العرض المتجاوب للشاشات الكبيرة والصغيرة */
-        @media (min-width: 1100px) {
-            .side-ad { display: block; }
-        }
-        @media (max-width: 768px) {
-            .ad-desktop { display: none; }
-            .ad-mobile { display: block; }
-        }
         @media (max-width: 600px) {
             .match-card { padding: 12px 10px; }
             .team-name { font-size: 0.85rem; }
@@ -347,23 +277,7 @@
 </head>
 <body>
 
-<div id="adblock-overlay">
-    <div class="adblock-box">
-        <h3>تم رصد مانع إعلانات نشط! 🚫</h3>
-        <p>عزيزي المتابع، موقع الفيفي تيفي يقدم البث المباشر مجاناً بدون اشتراكات، واستمرارنا يعتمد كلياً على الإعلانات المقترحة. يرجى إيقاف مانع الإعلانات (Ad Blocker) ثم أعد تحميل الصفحة للاستمتاع بالمشاهدة فوراً.</p>
-        <button class="btn" onclick="window.location.reload();">لقد قمت بإيقافه، أعد تحميل الصفحة 🔄</button>
-    </div>
-</div>
-
 <div class="main-layout">
-    
-    <div class="side-ad">
-        <script>
-            atOptions = { 'key' : 'fa05532cd68741ab5d2410dd1c6cdd9b', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
-        </script>
-        <script src="https://www.highperformanceformat.com/fa05532cd68741ab5d2410dd1c6cdd9b/invoke.js"></script>
-    </div>
-
     <div class="container">
         <header>
             <img src="icon-app.png" alt="شعار الفيفي تيفي" class="logo-img">
@@ -371,21 +285,6 @@
             <p>تجربة البث الرياضي الأكثر استقراراً للأندرويد والموقع الإلكتروني</p>
             <a href="https://www.mediafire.com/file/s1da4kbani2spm2/AlfaifiTV.0.6.apk/file" target="_blank" class="btn">تحميل التطبيق AlfaifiTV.0.6</a>
         </header>
-
-        <div class="ads-container" id="ad-banner-top">
-            <div class="ad-desktop">
-                <script>
-                    atOptions = { 'key' : '040803f376910b69b03b93e2a3f1a4ea', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/040803f376910b69b03b93e2a3f1a4ea/invoke.js"></script>
-            </div>
-            <div class="ad-mobile">
-                <script>
-                    atOptions = { 'key' : '8060120df504a76b8f6e2838214bd2a1', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/8060120df504a76b8f6e2838214bd2a1/invoke.js"></script>
-            </div>
-        </div>
 
         <section id="schedule-section">
             <div class="section-title">جدول مباريات اليوم</div>
@@ -400,40 +299,14 @@
             </div>
         </section>
 
-        <div class="ads-container">
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                <script>
-                    atOptions = { 'key' : 'c61bf465bce0c873a593640cafc3462b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/c61bf465bce0c873a593640cafc3462b/invoke.js"></script>
-
-                <script>
-                    atOptions = { 'key' : '627554bea89630e9fc4f71e90efb118e', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/627554bea89630e9fc4f71e90efb118e/invoke.js"></script>
-            </div>
-        </div>
-
         <section>
             <h2>ما هو تطبيق الفيفي تيفي (AlfaifiTV)؟</h2>
             <p>تطبيق الفيفي تيفي هو الحل الأمثل لعشاق الرياضة الذين يبحثون عن تجربة مشاهدة مميزة ومستقرة.</p>
         </section>
 
-        <div class="ads-container">
-            <script async="async" data-cfasync="false" src="https://pl30278567.effectivecpmnetwork.com/79834f057d1c9113d20e1ef2bb6ff09a/invoke.js"></script>
-            <div id="container-79834f057d1c9113d20e1ef2bb6ff09a"></div>
-        </div>
-
         <footer>
             <p>© 2026 AlfaifiTV - الموقع الرسمي</p>
         </footer>
-    </div>
-
-    <div class="side-ad">
-        <script>
-            atOptions = { 'key' : 'a40397ed03d1170c438bf7c4680c3dec', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-        </script>
-        <script src="https://www.highperformanceformat.com/a40397ed03d1170c438bf7c4680c3dec/invoke.js"></script>
     </div>
 </div>
 
@@ -458,27 +331,8 @@
     let clapprInstance = null; 
     let selectedMatchKey = null; 
 
-    // 🛑 تشغيل الموقع مباشرة، ثم التحقق من مانع الإعلانات بطريقة ذكية 🛑
     window.addEventListener('load', function() {
-        initFirebaseListening(); // نشغل الفايربيس والمباريات فوراً عشان الموقع ما يعلق
-
-        setTimeout(function() {
-            // نبحث عن أي إعلان شغال، سواء موبايل أو كمبيوتر
-            let adLoaded = false;
-            const iframes = document.querySelectorAll('.ad-desktop iframe, .ad-mobile iframe');
-            
-            for (let i = 0; i < iframes.length; i++) {
-                // نتأكد إن الإعلان يخص الشاشة الحالية (مو مخفي بالـ CSS) وعنده ارتفاع
-                if (window.getComputedStyle(iframes[i].parentElement).display !== 'none' && iframes[i].offsetHeight > 0) {
-                    adLoaded = true;
-                    break;
-                }
-            }
-
-            if (!adLoaded) {
-                document.getElementById('adblock-overlay').style.display = 'flex';
-            }
-        }, 2500); // نعطيه ثانيتين ونص يحمل الإعلانات عشان ما يظلم اللي نتهم ضعيف
+        initFirebaseListening();
     });
 
     function initFirebaseListening() {
@@ -492,16 +346,6 @@
                 clearPlayer(); 
                 selectedMatchKey = null;
                 return;
-            }
-
-            if (selectedMatchKey) {
-                const currentActiveMatch = data[selectedMatchKey];
-                const stillHasStream = currentActiveMatch && (currentActiveMatch.stream_url_1 || currentActiveMatch.stream_url_2 || currentActiveMatch.stream_url_3);
-                
-                if (!stillHasStream) {
-                    clearPlayer();
-                    selectedMatchKey = null;
-                }
             }
 
             Object.keys(data).forEach((key) => {
@@ -542,10 +386,8 @@
                     if (hasStream) {
                         selectedMatchKey = key;
                         loadMatchPlayer(match);
-                        
                         document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected-active'));
                         card.classList.add('selected-active');
-                        
                         document.getElementById('live-stream-section').scrollIntoView({ behavior: 'smooth' });
                     } else {
                         alert("هذه المباراة لا تحتوي على بث مباشر حالياً.");
@@ -568,7 +410,6 @@
 
     function loadMatchPlayer(match) {
         const playerArea = document.getElementById('player-area-content');
-        
         playerArea.innerHTML = `
             <div class="live-status-badge">
                 <span class="pulse-dot"></span>
@@ -582,7 +423,6 @@
         `;
 
         const defaultUrl = match.stream_url_1 || match.stream_url_2 || match.stream_url_3;
-        
         const serversWrapper = document.getElementById('servers-wrapper');
         if (match.stream_url_1) createServerButton("سيرفر 1", match.stream_url_1, defaultUrl === match.stream_url_1, serversWrapper);
         if (match.stream_url_2) createServerButton("سيرفر 2", match.stream_url_2, defaultUrl === match.stream_url_2, serversWrapper);
