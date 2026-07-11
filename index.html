@@ -22,6 +22,20 @@
     <meta name="twitter:image" content="https://alfaifitv.github.io/icon-app.png">
 
     <style>
+        /* كود كاشف مانع الإعلانات */
+        #adblock-notice {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 999999;
+            color: #fff;
+            text-align: center;
+            padding-top: 15%;
+            font-family: sans-serif;
+        }
+        #adblock-notice h2 { color: #e74c3c; font-size: 2rem; }
+        
         :root { 
             --primary-color: #8e44ad; 
             --bg-color: #1a1a1a; 
@@ -293,6 +307,13 @@
 </head>
 <body>
 
+<!-- عنصر كاشف مانع الإعلانات -->
+<div id="adblock-notice">
+    <h2>⚠️ تم اكتشاف مانع للإعلانات</h2>
+    <p>عذراً، يرجى إيقاف إضافة مانع الإعلانات (AdBlock) للاستمرار في مشاهدة المباريات.</p>
+    <p>بعد إيقاف المانع، قم بتحديث الصفحة.</p>
+</div>
+
 <div class="main-layout">
     <div class="side-ad">
         <script>atOptions = {'key' : 'fa05532cd68741ab5d2410dd1c6cdd9b', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {}};</script>
@@ -358,6 +379,21 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
+    // كود كشف مانع الإعلانات
+    setTimeout(function() {
+        let fakeAd = document.createElement('div');
+        fakeAd.innerHTML = '&nbsp;';
+        fakeAd.className = 'adsbox';
+        fakeAd.style.height = '1px';
+        document.body.appendChild(fakeAd);
+        setTimeout(function() {
+            if (fakeAd.offsetHeight === 0) {
+                document.getElementById('adblock-notice').style.display = 'block';
+            }
+            fakeAd.remove();
+        }, 100);
+    }, 1000);
+
     const firebaseConfig = {
         apiKey: "AIzaSyAngv8D7jXNFWrr0yS8fW51_3leSoot88w",
         authDomain: "alfaifitv-9f368.firebaseapp.com",
