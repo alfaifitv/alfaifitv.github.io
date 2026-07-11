@@ -476,7 +476,7 @@
     // 🛑 فحص مانع الإعلانات 🛑
     window.addEventListener('load', function() {
         setTimeout(function() {
-            const adContainer = document.querySelector('.ad-desktop iframe') || document.querySelector('.ad-mobile iframe');
+            const adContainer = document.querySelector('.ad-desktop iframe');
             
             if (!adContainer || adContainer.offsetHeight === 0) {
                 document.getElementById('adblock-overlay').style.display = 'flex';
