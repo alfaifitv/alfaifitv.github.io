@@ -292,6 +292,17 @@
             margin-top: 50px;
         }
         
+        /* -- تعديلات التجاوب (Mobile Responsive) -- */
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .team-name { font-size: 0.85rem; }
+            .team img { width: 25px; height: 25px; }
+            .match-card { padding: 10px 5px; }
+            h1 { font-size: 1.3rem; }
+            .btn { font-size: 0.9rem; padding: 10px 15px; }
+            .msg-content { max-width: 90%; }
+        }
+
         @media (min-width: 1100px) {
             .side-ad { display: block; }
         }
@@ -299,7 +310,7 @@
 </head>
 <body>
 
-<!-- رسالة الحجب -->
+<!-- باقي الكود كما هو تماماً -->
 <div id="site-msg-container">
     <div class="msg-content">
         <span class="msg-icon">🚫</span>
@@ -358,14 +369,13 @@
         </footer>
     </div>
 </div>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // سكريبت كشف مانع الإعلانات (AdBlock) الصارم - المطور
     window.addEventListener('load', function() {
-        // ننتظر 2.5 ثانية لإعطاء فرصة لإضافات الحجب للعمل
         setTimeout(function() {
             var adBlockTester = document.createElement('div');
             adBlockTester.innerHTML = '&nbsp;';
@@ -376,7 +386,6 @@
 
             setTimeout(function() {
                 var style = window.getComputedStyle(adBlockTester);
-                // الفحص: إذا كان الارتفاع صفر، أو العنصر مخفي (display none)، أو شفاف تماماً (hidden)
                 var isAdBlockEnabled = (adBlockTester.offsetHeight === 0 || style.display === 'none' || style.visibility === 'hidden');
 
                 if (isAdBlockEnabled) {
@@ -505,8 +514,6 @@
 
     function startPlayer(url) {
         const playerContainer = document.getElementById('clappr-player');
-
-        // التحقق مما إذا كان الرابط هو كود iframe كامل أو رابط صفحة تضمين خارجي
         const isIframeCode = url.includes('<iframe');
         const isEmbedLink = url.includes('embed') || url.includes('.dev') || url.includes('php'); 
 
