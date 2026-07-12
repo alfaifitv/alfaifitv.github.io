@@ -493,29 +493,26 @@
         };
         container.appendChild(btn);
     }
-function startPlayer(url) {
+
+    function startPlayer(url) {
         const playerContainer = document.getElementById('clappr-player');
 
-        // التحقق مما إذا كان الرابط هو كود iframe كامل أو رابط صفحة تضمين (embed)
+        // التحقق مما إذا كان الرابط هو كود iframe كامل أو رابط صفحة تضمين خارجي
         const isIframeCode = url.includes('<iframe');
         const isEmbedLink = url.includes('embed') || url.includes('.dev') || url.includes('php'); 
 
         if (isIframeCode || isEmbedLink) {
-            // 1. إيقاف مشغل Clappr إذا كان شغال عشان نعرض الـ iframe مكانه
             if (clapprInstance) {
                 clapprInstance.destroy();
                 clapprInstance = null;
             }
 
-            // 2. فحص نوع الإدخال: هل هو كود جاهز أم مجرد رابط؟
             if (isIframeCode) {
                 playerContainer.innerHTML = url;
             } else {
-                // إذا حطيت في فايربيس رابط فقط، النظام بيكتب كود iframe تلقائياً
                 playerContainer.innerHTML = `<iframe src="${url}" width="100%" height="100%" frameborder="0" scrolling="no" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
             }
 
-            // 3. ضبط مقاسات الـ iframe ليملأ الشاشة السوداء (16:9) بالكامل
             const iframe = playerContainer.querySelector('iframe');
             if (iframe) {
                 iframe.style.width = '100%';
@@ -526,15 +523,13 @@ function startPlayer(url) {
                 iframe.style.left = '0';
             }
             
-            // تهيئة حاوية المشغل
             playerContainer.style.position = 'relative';
             playerContainer.style.width = '100%';
             playerContainer.style.height = '100%';
 
         } else {
-            // التشغيل الطبيعي للروابط المباشرة عبر مشغل Clappr
-            playerContainer.innerHTML = ''; // تنظيف أي iframe سابق
-            playerContainer.style.position = ''; // إعادة الإعدادات للافتراضي
+            playerContainer.innerHTML = ''; 
+            playerContainer.style.position = ''; 
             
             if (clapprInstance) {
                 clapprInstance.load(url);
@@ -550,7 +545,7 @@ function startPlayer(url) {
                 });
             }
         }
-    } }
+    }
 </script>
 </body>
 </html>
