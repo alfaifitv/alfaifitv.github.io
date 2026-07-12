@@ -299,7 +299,7 @@
 </head>
 <body>
 
-<!-- رسالة الحجب المطورة -->
+<!-- رسالة الحجب -->
 <div id="site-msg-container">
     <div class="msg-content">
         <span class="msg-icon">🚫</span>
@@ -363,40 +363,31 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // سكريبت كشف مانع الإعلانات (AdBlock) الصارم
+    // سكريبت كشف مانع الإعلانات (AdBlock) الصارم - المطور
     window.addEventListener('load', function() {
-        // ننتظر قليلاً حتى تقوم إضافة مانع الإعلانات بعملها
+        // ننتظر 2.5 ثانية لإعطاء فرصة لإضافات الحجب للعمل
         setTimeout(function() {
-            // إنشاء عنصر وهمي يحمل أسماء تحظرها موانع الإعلانات فوراً
             var adBlockTester = document.createElement('div');
             adBlockTester.innerHTML = '&nbsp;';
-            adBlockTester.className = 'adsbox ad-placement doubleclick ad-banner sponsor';
+            adBlockTester.className = 'adsbox ad-placement doubleclick ad-banner sponsor textads banner-ads';
             adBlockTester.style.position = 'absolute';
             adBlockTester.style.top = '-9999px';
             document.body.appendChild(adBlockTester);
 
-            // التحقق بعد لحظات مما إذا كان المانع قد أخفى العنصر
             setTimeout(function() {
-                var isAdBlockEnabled = false;
-                
-                // إذا كان ارتفاع العنصر صفر أو تم إخفاؤه
-                if (adBlockTester.offsetHeight === 0 || window.getComputedStyle(adBlockTester).display === 'none') {
-                    isAdBlockEnabled = true;
-                }
+                var style = window.getComputedStyle(adBlockTester);
+                // الفحص: إذا كان الارتفاع صفر، أو العنصر مخفي (display none)، أو شفاف تماماً (hidden)
+                var isAdBlockEnabled = (adBlockTester.offsetHeight === 0 || style.display === 'none' || style.visibility === 'hidden');
 
                 if (isAdBlockEnabled) {
-                    // إظهار رسالة التحذير التي تغطي الشاشة
                     var msgContainer = document.getElementById('site-msg-container');
                     msgContainer.style.setProperty('display', 'block', 'important');
-                    
-                    // إيقاف التمرير (النزول والصعود) في الموقع نهائياً
                     document.body.style.setProperty('overflow', 'hidden', 'important');
                 }
                 
-                // إزالة العنصر الوهمي بعد الانتهاء من الفحص
                 adBlockTester.remove();
-            }, 500);
-        }, 800);
+            }, 1000); 
+        }, 2500); 
     });
 
     const firebaseConfig = {
