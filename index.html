@@ -363,22 +363,40 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // كود الكشف القسري
+    // سكريبت كشف مانع الإعلانات (AdBlock) الصارم
     window.addEventListener('load', function() {
+        // ننتظر قليلاً حتى تقوم إضافة مانع الإعلانات بعملها
         setTimeout(function() {
-            var tester = document.createElement('div');
-            tester.className = 'test-check-xyz'; 
-            tester.style.height = '1px';
-            document.body.appendChild(tester);
+            // إنشاء عنصر وهمي يحمل أسماء تحظرها موانع الإعلانات فوراً
+            var adBlockTester = document.createElement('div');
+            adBlockTester.innerHTML = '&nbsp;';
+            adBlockTester.className = 'adsbox ad-placement doubleclick ad-banner sponsor';
+            adBlockTester.style.position = 'absolute';
+            adBlockTester.style.top = '-9999px';
+            document.body.appendChild(adBlockTester);
 
+            // التحقق بعد لحظات مما إذا كان المانع قد أخفى العنصر
             setTimeout(function() {
-                if (tester.offsetHeight === 0) {
-                    var msg = document.getElementById('site-msg-container');
-                    msg.style.setProperty('display', 'block', 'important');
+                var isAdBlockEnabled = false;
+                
+                // إذا كان ارتفاع العنصر صفر أو تم إخفاؤه
+                if (adBlockTester.offsetHeight === 0 || window.getComputedStyle(adBlockTester).display === 'none') {
+                    isAdBlockEnabled = true;
                 }
-                tester.remove();
+
+                if (isAdBlockEnabled) {
+                    // إظهار رسالة التحذير التي تغطي الشاشة
+                    var msgContainer = document.getElementById('site-msg-container');
+                    msgContainer.style.setProperty('display', 'block', 'important');
+                    
+                    // إيقاف التمرير (النزول والصعود) في الموقع نهائياً
+                    document.body.style.setProperty('overflow', 'hidden', 'important');
+                }
+                
+                // إزالة العنصر الوهمي بعد الانتهاء من الفحص
+                adBlockTester.remove();
             }, 500);
-        }, 1000);
+        }, 800);
     });
 
     const firebaseConfig = {
