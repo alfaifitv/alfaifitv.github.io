@@ -517,7 +517,7 @@
             clapprInstance = null;
         }
 
-        // إذا كان الرابط يحتوي على iframe يتم عرضه كما هو
+        // يتم معالجة أي رابط يحتوي على كود iframe لعرضه مباشرة
         if (url.includes('<iframe')) {
             playerContainer.innerHTML = url;
             const iframe = playerContainer.querySelector('iframe');
